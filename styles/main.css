@@ -5149,13 +5149,49 @@ Created using IcoMoon - icomoon.io
 }
 
 @media only screen and (max-width: 600px) {
-  ..page-header-image{
+  .page-header-image{
     width: 100%;
-    background-repeat: no-repeat, repeat;
+    background-repeat: no-repeat;
+  }
+  .mycontact{
+    margin-left: 10%;
+  }
+
+  .email{
+    margin: 0 auto;
+    margin-left: 0.5%;
+  }
+
+  .projfont1{
+    font-size:60%;
+    color: #FFC52F;
+     margin-left: auto;
+     margin-right: auto;
+     margin-top: 5%;
   }
 
 }
 
+@media only screen and (min-width: 600px)
+{
+  .mycontact{
+    margin-left: 35%;
+  }
+  .email{
+    margin: 0 auto;
+    margin-left: 177px;
+  }
+
+  .projfont1{
+    font-size:87%;
+    color: #FFC52F;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+  }
+
+
+}
 .page-header footer {
   position: absolute;
   bottom: 0;
