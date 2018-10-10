@@ -5148,6 +5148,14 @@ Created using IcoMoon - icomoon.io
   z-index: -1;
 }
 
+@media only screen and (max-width: 600px) {
+  ..page-header-image{
+    width: 100%;
+    background-repeat: no-repeat, repeat;
+  }
+
+}
+
 .page-header footer {
   position: absolute;
   bottom: 0;
