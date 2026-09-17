@@ -1,336 +1,830 @@
 <!DOCTYPE html>
-<html lang="en-US">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Aadithya's CV</title>
-    <meta name="description"/>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"> -->
-    <link href="css/aos.css" rel="stylesheet">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="styles/main.css" rel="stylesheet">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aadithya Venkatanarayanan - Terminal Developer Portfolio">
+  <title>aadithya@azure: ~ (zsh)</title>
+  <style>
+    :root {
+      color-scheme: dark light;
+      --bg: #090d13;
+      --bg-surface: #0f1622;
+      --bg-card: rgba(18, 26, 39, 0.85);
+      --border: #1f2d42;
+      --border-glow: #2dd4bf;
+      --text: #e2e8f0;
+      --text-muted: #8092a8;
+      --accent: #2dd4bf;
+      --accent-dim: rgba(45, 212, 191, 0.12);
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --blue: #38bdf8;
+      --purple: #a855f7;
+      --glow: rgba(45, 212, 191, 0.25);
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    }
 
-  </head>
-  <body id="top">
-    <header>
-      <div class="profile-page sidebar-collapse">
-        <nav class="navbar navbar-expand-lg fixed-top navbar-transparent bg-primary" color-on-scroll="400">
-          <div class="container">
-            <div class="navbar-translate" id="name" style="font-family: 'Pacifico', cursive;"  ><a class="navbar-brand" href="#" rel="tooltip" style = "color: #FFC52F" >Aadithya &nbsp Venkatanarayanan</a>
-              <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-bar bar1"></span><span class="navbar-toggler-bar bar2"></span><span class="navbar-toggler-bar bar3"></span></button>
-            </div>
-            <div class="collapse navbar-collapse justify-content-end" id="navigation">
-              <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link smooth-scroll" href="#about" style="color: #FFC52F"><strong>About</strong></a></li>
-                <li class="nav-item"><a class="nav-link smooth-scroll" href="#education"  style="color: #FFC52F"><strong>Education</strong></a></li>
-                <li class="nav-item"><a class="nav-link smooth-scroll" href="#experience" style="color: #FFC52F"><strong>Experience</strong></a></li>
-                <li class="nav-item"><a class="nav-link smooth-scroll" href="#portfolio" style="color: #FFC52F"><strong>Projects</strong></a></li>
-                <li class="nav-item"><a class="nav-link smooth-scroll" href="#contact" style="color: #FFC52F"><strong>Contact</strong></a></li>
-              </ul>
-            </div>
-          </div>
-        </nav>
+    [data-theme="light"] {
+      color-scheme: light;
+      --bg: #f3f5f8;
+      --bg-surface: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.95);
+      --border: #d5dde8;
+      --border-glow: #0d9488;
+      --text: #0f172a;
+      --text-muted: #52637a;
+      --accent: #0d9488;
+      --accent-dim: rgba(13, 148, 136, 0.1);
+      --green: #16a34a;
+      --amber: #d97706;
+      --blue: #0284c7;
+      --purple: #7e22ce;
+      --glow: rgba(13, 148, 136, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(ellipse at 50% 0%, var(--glow), transparent 45rem),
+        linear-gradient(to right, rgba(128, 146, 168, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(128, 146, 168, 0.05) 1px, transparent 1px);
+      background-size: 100% 100%, 36px 36px, 36px 36px;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.6;
+      padding: 24px 16px 64px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .terminal-window {
+      max-width: 1040px;
+      margin: 0 auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--bg-surface);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04);
+      overflow: hidden;
+    }
+
+    /* Terminal Titlebar */
+    .titlebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+      background: rgba(15, 22, 34, 0.95);
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+
+    .window-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .window-btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .btn-close { background: #ef4444; }
+    .btn-min { background: #eab308; }
+    .btn-max { background: #22c55e; }
+
+    .window-title {
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .window-title span.active-branch {
+      color: var(--amber);
+    }
+
+    .titlebar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .status-badge::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .theme-toggle-btn {
+      background: var(--accent-dim);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Terminal Nav */
+    .terminal-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 24px;
+      background: rgba(10, 16, 26, 0.4);
+      border-bottom: 1px dashed var(--border);
+      font-size: 13px;
+    }
+
+    .nav-tag {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .nav-item {
+      color: var(--text-muted);
+      transition: color 0.15s ease;
+    }
+
+    .nav-item:hover {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .nav-item.highlight {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .nav-cta {
+      margin-left: auto;
+      background: var(--accent);
+      color: #051a17 !important;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+    }
+
+    .nav-cta:hover {
+      opacity: 0.9;
+      text-decoration: none;
+    }
+
+    /* Terminal Body */
+    .terminal-body {
+      padding: 36px 32px 48px;
+    }
+
+    .command-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      font-size: 13px;
+    }
+
+    .prompt-user {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .prompt-path {
+      color: var(--blue);
+    }
+
+    .prompt-symbol {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .command-text {
+      color: var(--amber);
+    }
+
+    /* Hero */
+    .hero-container {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 32px;
+      align-items: center;
+      padding: 24px 0 36px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 36px;
+    }
+
+    .avatar-frame {
+      width: 110px;
+      height: 110px;
+      border: 2px solid var(--accent);
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.15), rgba(15, 22, 34, 0.9));
+      box-shadow: 0 0 25px var(--glow);
+      font-size: 54px;
+      position: relative;
+    }
+
+    .avatar-frame::after {
+      content: "STATUS: READY";
+      position: absolute;
+      bottom: -10px;
+      background: var(--bg-surface);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-info h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .hero-info h1 .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1.1em;
+      background: var(--accent);
+      vertical-align: -0.15em;
+      margin-left: 4px;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .tagline {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .tagline strong {
+      color: var(--accent);
+    }
+
+    .quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .cmd-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      transition: all 0.15s ease;
+    }
+
+    .cmd-pill:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 4px 14px var(--accent-dim);
+      transform: translateY(-2px);
+    }
+
+    /* Section Headers */
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title span.count {
+      color: var(--accent);
+      font-size: 12px;
+      background: var(--accent-dim);
+      padding: 2px 8px;
+      border-radius: 12px;
+      border: 1px solid rgba(45, 212, 191, 0.2);
+    }
+
+    /* Projects 2x2 Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-bottom: 44px;
+    }
+
+    .project-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg-card);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent);
+      box-shadow: 0 16px 36px -10px var(--glow);
+    }
+
+    .project-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .project-icon-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      color: var(--accent);
+    }
+
+    .project-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(34, 197, 94, 0.12);
+      color: var(--green);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      letter-spacing: 0.05em;
+    }
+
+    .project-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .project-arrow {
+      color: var(--text-muted);
+      font-size: 15px;
+      transition: transform 0.15s ease, color 0.15s ease;
+    }
+
+    .project-card:hover .project-arrow {
+      color: var(--accent);
+      transform: translate(3px, -3px);
+    }
+
+    .project-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 18px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 11px;
+    }
+
+    .project-tag {
+      background: var(--accent-dim);
+      color: var(--accent);
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(45, 212, 191, 0.2);
+    }
+
+    /* Experience Terminal Log */
+    .experience-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .exp-item {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-card);
+      padding: 18px 22px;
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 20px;
+      align-items: start;
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .exp-item:hover {
+      border-color: var(--border-glow);
+      transform: translateX(4px);
+    }
+
+    .exp-time {
+      font-size: 11px;
+      color: var(--amber);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .exp-company {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .exp-role {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .exp-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Terminal Footer */
+    .terminal-footer {
+      border-top: 1px dashed var(--border);
+      padding-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .terminal-footer a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      .exp-item {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+      .hero-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .terminal-body {
+        padding: 24px 18px;
+      }
+      .nav-cta {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="terminal-window">
+    <!-- Titlebar -->
+    <header class="titlebar">
+      <div class="window-controls">
+        <span class="window-btn btn-close"></span>
+        <span class="window-btn btn-min"></span>
+        <span class="window-btn btn-max"></span>
+      </div>
+      <div class="window-title">
+        <span>aadithya@azure: ~ (zsh)</span>
+        <span class="active-branch">git:(main)</span>
+      </div>
+      <div class="titlebar-actions">
+        <div class="status-badge">ONLINE</div>
+        <button class="theme-toggle-btn" id="themeToggle" type="button" aria-label="Toggle theme">
+          <span id="themeLabel">MODE: CRT_DARK</span>
+        </button>
       </div>
     </header>
-    <div class="page-content">
-      <div>
-<div class="profile-page">
-  <div class="wrapper">
-    <div class="page-header page-header-small" filter-color="green">
-      <div class="page-header-image" data-parallax="true" style="background-image: url('images/USC_bg.jpg');"></div>
-      <div class="container">
-        <div class="content-center">
-          <div class="cc-profile-image"><a href="#"><img src="images/myImg.png" alt="Image"/></a></div>
-          <div class="h2 title" >Aadithya Venkatanarayanan</div>
-          <p class="category text-white"  >Masters in ECE, University of California, Los Angeles </p>
-          <p class="category text-white"  > Software Development Engineer at Microsoft Azure. </p>
-          <a class="btn btn-primary" href="downloads/Aadithya_Venkat_Software_Resume.pdf" style = "color: #FFC52F" data-aos="zoom-in" data-aos-anchor="data-aos-anchor" download>Download CV</a>
-        </div>
+
+    <!-- Navigation / Subheader -->
+    <nav class="terminal-nav" aria-label="Quick links">
+      <span class="nav-tag">$ cd</span>
+      <a class="nav-item highlight" href="#about">~/about</a>
+      <a class="nav-item" href="#experience">~/experience</a>
+      <a class="nav-item" href="#projects">~/projects</a>
+      <a class="nav-item" href="mailto:aadithyavenkat@gmail.com">~/contact</a>
+      <a class="nav-cta" href="downloads/Aadithya_Venkat_Software_Resume.pdf" download>GET resume.pdf ↗</a>
+    </nav>
+
+    <!-- Main Terminal Area -->
+    <main class="terminal-body" id="about">
+      
+      <!-- Command prompt line -->
+      <div class="command-line">
+        <span class="prompt-user">aadithya@azure</span>
+        <span class="prompt-path">~</span>
+        <span class="prompt-symbol">$</span>
+        <span class="command-text">whoami --verbose --title</span>
       </div>
-      <div class="section">
-        <div class="container">
-          <div class="button-container">
-            <a class="btn btn-default btn-round btn-lg btn-icon" style = "color: #FFC52F; background-color:#0047ab" href="https://www.facebook.com/aadithya.venkat.1/" target="_blank" rel="tooltip" title="Follow me on Facebook"><i class="fa fa-facebook"></i></a><a class="btn btn-default btn-round btn-lg btn-icon" style = "color: #FFC52F; background-color:#0047ab" href="https://twitter.com/AadithyaVenkat" target="_blank" rel="tooltip" title="Follow me on Twitter"><i class="fa fa-twitter"></i></a>
-            <a class="btn btn-default btn-round btn-lg btn-icon" style = "color: #FFC52F; background-color:#0047ab" href="https://www.instagram.com/aadithyaphotography/?hl=en" target="_blank" rel="tooltip" title="Follow me on Instagram"><i class="fa fa-instagram"></i></a><a class="btn btn-default btn-round btn-lg btn-icon" style = "color: #FFC52F; background-color:#0047ab " href="https://github.com/AadithyaVenkat" target="_blank" rel="tooltip" title="Follow me on Github"><i class="fa fa-github"></i></i></a></div>
-        </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="section" id="about">
-  <div class="container">
-    <div class="card" data-aos="fade-up" data-aos-offset="10">
-      <div class="row">
-        <div class="col-lg-6 col-md-12">
-          <div class="card-body">
-            <div class="h4 mt-0 title">About</div>
-            <p>Hello! I am Aadithya Venkatanarayanan. I'm a Masters graduate in Electrical and Computer Engineering from University of California, Los Angeles</p>
-            <p>I'm currently working as a Software Development Engineer for Microsoft Corporation in Azure Core group. My experience includes working on Software for IoT devices and creating a black-box experience for customers to deploy apps on the Edge. Previously I worked in Cisco for the IIoT software group. <p>
-            <p><a href="https://www.linkedin.com/in/aadithyav" target="_blank">Learn More</a></p>
+
+      <!-- Hero / Bio -->
+      <section class="hero-container" aria-label="Developer summary">
+        <div class="avatar-frame" aria-hidden="true">👨‍💻</div>
+        <div class="hero-info">
+          <h1>Aadithya Venkatanarayanan<span class="cursor"></span></h1>
+          <p class="tagline">
+            <strong>Software Development Engineer @ Microsoft Azure</strong><br>
+            UCLA ECE M.S. graduate focused on cloud networking, edge platforms, and resilient distributed systems.
+          </p>
+          <div class="quick-links">
+            <a class="cmd-pill" href="https://github.com/AadithyaVenkat" target="_blank" rel="noreferrer">
+              <span>🐙</span> github.com/AadithyaVenkat
+            </a>
+            <a class="cmd-pill" href="https://www.linkedin.com/in/aadithyav" target="_blank" rel="noreferrer">
+              <span>💼</span> linkedin.com/in/aadithyav
+            </a>
+            <a class="cmd-pill" href="mailto:aadithyavenkat@gmail.com">
+              <span>✉️</span> aadithyavenkat@gmail.com
+            </a>
           </div>
         </div>
-        <div class="col-lg-6 col-md-12">
-          <div class="card-body">
-            <div class="h4 mt-0 title">Basic Information</div>
-            <div class="row mt-3">
-              <div class="col-sm-4"><strong class="text-uppercase">Email:</strong></div>
-              <div class="col-sm-8">aadithyavenkat@gmail.com</div>
-              <div class="col-sm-8 email">aadithyavenkat@ucla.edu</div>
+      </section>
+
+      <!-- Experience Section -->
+      <section id="experience">
+        <div class="command-line">
+          <span class="prompt-user">aadithya@azure</span>
+          <span class="prompt-path">~/experience</span>
+          <span class="prompt-symbol">$</span>
+          <span class="command-text">git log --oneline --graph --all</span>
+        </div>
+
+        <div class="section-title">
+          <span>CAREER TIMELINE</span>
+          <span class="count">4 ENTRIES</span>
+        </div>
+
+        <div class="experience-list">
+          <!-- Microsoft Azure -->
+          <article class="exp-item">
+            <div>
+              <div class="exp-time">SEP 2021 — PRESENT</div>
+              <div class="exp-company">Microsoft · Redmond, WA</div>
             </div>
-            <div class="row mt-3">
-              <div class="col-sm-4"><strong class="text-uppercase">Phone:</strong></div>
-              <div class="col-sm-8">(424) 270-4698</div>
+            <div>
+              <h3 class="exp-role">Software Development Engineer, Azure Core</h3>
+              <p class="exp-desc">Engineering reliable cloud networking services and building seamless edge deployment capabilities for enterprise cloud infrastructure.</p>
             </div>
-            <div class="row mt-3">
-              <div class="col-sm-4"><strong class="text-uppercase">Languages:</strong></div>
-              <div class="col-sm-8">English, Hindi, Tamil</div>
+          </article>
+
+          <!-- Cisco Systems -->
+          <article class="exp-item">
+            <div>
+              <div class="exp-time">FEB 2019 — SEP 2021</div>
+              <div class="exp-company">Cisco Systems · San Jose, CA</div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="section" id="education">
-  <div class="container cc-education">
-    <div class="h4 text-center mb-4 title">Education</div>
-    <div class="card">
-      <div class="row">
-        <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
-          <div class="card-body cc-education-header">
-            <p style = "color: #FFC52F">2017 - 2018</p>
-            <div class="h5" style = "color: #FFC52F">Master's Degree</div>
-          </div>
-        </div>
-        <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
-          <div class="card-body">
-            <div class="h5" >Master of Science, Electrical and Computer Engineering </div>
-            <p class="category" >University of California, Los Angeles, CA</p>
-            <p>Pursued a Masters degree in Electrical and Computer Engineering at University of California, Los Angeles</p>
-            <p>Completed coursework -  Large Scale Data Mining, Advanced Computer Networks, Networked Embedded Systems, Human Computer Interaction, Security in Embedded Systems, Network Protocols & Software Design for Wireless & Mobile Systems, Machine Learning.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="row">
-        <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
-          <div class="card-body cc-education-header">
-            <p style = "color: #FFC52F">2013 - 2017</p>
-            <div class="h5"  style = "color: #FFC52F">Bachelor's Degree</div>
-          </div>
-        </div>
-        <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
-          <div class="card-body">
-            <div class="h5">Bachelor of Technolgy, Electronics and Communication Engineering </div>
-            <p class="category">SSN College of Engineering, Chennai, India</p>
-            <p> Pursued a bachelors degree in Electronics and Communication Engineering from SNU University in Chennai, India </p>
-            <p> Relevant Coursework - Computer Architechture, Digital Sytstems desgin, Digital Signal Processing, Computer Networks, Embedded Systems, OOPS and Data Structures </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="section" id="experience">
-  <div class="container cc-experience">
-    <div class="h4 text-center mb-4 title">Work Experience</div>
-    
-    
-    <div class="card">
-      <div class="row">
-        <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
-          <div class="card-body cc-experience-header">
-            <p style = "color: #FFC52F">Sep 2021 - Present</p>
-            <div class="h5" style = "color: #FFC52F">Microsoft Corporation, Redmond</div>
-          </div>
-        </div>
-        <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
-          <div class="card-body">
-            <div class="h5">Software Development Engineer, Azure</div>
-            <p>Currently working on building the most reliable cloud networking.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="row">
-        <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
-          <div class="card-body cc-experience-header">
-            <p style = "color: #FFC52F">Feb 2019 - Sep 2021</p>
-            <div class="h5" style = "color: #FFC52F">Cisco Systems, San Jose</div>
-          </div>
-        </div>
-        <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
-          <div class="card-body">
-            <div class="h5">Software Development Engineer, IIoT </div>
-            <p>Worked with the Industrial Internet of Things as a Software Development Engineer.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-    <div class="card">
-      <div class="row">
-        <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
-          <div class="card-body cc-experience-header">
-            <p style = "color: #FFC52F">June 2018 - September 2018</p>
-            <div class="h5" style = "color: #FFC52F">Midmark Corporation</div>
-          </div>
-        </div>
-        <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
-          <div class="card-body">
-            <div class="h5">Applied and Research Technologies Intern</div>
-            <p>Developed a C# Microsoft Windows application for BLE R/W characteristics, sorted and displayed devices in the UI based on BLE Received Signal Strength Indication for Midmark RTLS technology.•Validated RTLS (Distance vs RSSI) technology and visualized the results using Python-Matplotlib.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="card">
-      <div class="row">
-        <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
-          <div class="card-body cc-experience-header">
-            <p  style = "color: #FFC52F">Dec 2016 - July 2017</p>
-            <div class="h5" style = "color: #FFC52F">SSN Wireless Research Lab, Chennai, India </div>
-          </div>
-        </div>
-        <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
-          <div class="card-body">
-            <div class="h5">Software Research Intern</div>
-            <p>Designed software for an IoT smart bike deployed with security system to prevent theft and integratedwith sensors to monitor air quality level using Arduino/ESP 8266 and transferred data to cloud. Integrated a custom developed Android application to display pollution map over user’s bike route,created a signup/login and chatroom mechanism using Google Firebase APIs.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-<div class="section" id="portfolio">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 ml-auto mr-auto">
-        <div class="h4 text-center mb-4 title">Projects</div>
-        <div class="nav-align-center">
-          <ul class="nav nav-pills nav-pills-primary" role="tablist">
-            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#web-development" role="tablist"><i  style = "color: #FFC52F" class="fa fa-laptop" aria-hidden="true"></i></a></li>
-            <!-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#graphic-design" role="tablist"><i class="fa fa-picture-o" aria-hidden="true"></i></a></li>
-            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Photography" role="tablist"><i class="fa fa-camera" aria-hidden="true"></i></a></li> -->
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="tab-content gallery mt-5">
-      <div class="tab-pane active" id="web-development">
-        <div class="ml-auto mr-auto">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="https://github.com/AadithyaVenkat/UCLA-ECE-M119-2018-Final-Project" target="_blank">
-                  <figure class="cc-effect"><img src="images/collage1.jpeg" alt="Image"/>
-                    <figcaption>
-                      <p class="projfont" style="margin-top: 2%;color: #FFC52F" ><strong>FitGroup - Network of Hexiwears for group fitnes</strong></p>
-                      <p  class="projfont" style="font-size:87.5%;color: #FFC52F"><strong>Networked Embedded Systems</strong></p>
-                      <p class="projfont1" ><strong> Created a family fitness-watch setup using BLE and Wi-Fi to track group fitness data on Hexiwear. Computed steps/heart-rate data from sensors and pushed data to Raspberry Pi and Microsoft Azure. Used Microsoft Azure APIs for computing analytics and transfer of fitness data between watches.</strong></p>
-                    </figcaption>
-                  </figure></a></div>
-              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="https://github.com/AadithyaVenkat/DataMining-UCLAECE219/tree/master/Project3" target="_blank">
-                  <figure class="cc-effect"><img src="images/collage.jpeg" alt="Image"/>
-                    <figcaption>
-                      <p  class="projfont" style="margin-top: 2%;color: #FFC52F"><strong>Movie Recommendation system using collaborative filtering</strong></p>
-                      <p  class="projfont" style="font-size:87.5%;color: #FFC52F"> <strong> Data Mining and Machine Learning </strong></p>
-                      <p  class="projfont1" ><strong>Created a Movie Recommendation System using k-NN and NNMF based Collaborative filtering andevaluated predictions using metrics like ROC, Area under Curve, RMSE, Precision Recall Curve</strong></p>
-                    </figcaption>
-
-                  </figure></a></div>
+            <div>
+              <h3 class="exp-role">Software Development Engineer, IIoT</h3>
+              <p class="exp-desc">Engineered software for Industrial Internet of Things platforms, device connectivity stacks, and industrial edge software architectures.</p>
             </div>
-            <div class="col-md-6">
-              <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="#" target="_blank">
-                  <figure class="cc-effect"><img  src="images/collage2.png" alt="Image"/>
-                    <figcaption>
-                    <p  class="projfont" style="margin-top: 2%;color: #FFC52F"><strong>Defense against DDoS in VANET</strong></p>
-                    <p  class="projfont" style="font-size:87.5%;color: #FFC52F"> <strong> Advanced Computer Networks in C++</strong></p>
-                    <p  class="projfont1" ><strong>Simulated Denial of Service in VANET where the RSU floods the vehicles with messages denying equalchannel access in DSRC and used three different defense methods to reduce the impact of DoS attacksand compared the effectiveness of different defense methods.</strong></p>
-                  </figcaption>
-                  </figure></a></div>
-              <div class="cc-porfolio-image img-raised" style="height: 52.5%" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="https://github.com/AadithyaVenkat/SSN-Quadrotor-Internal-funding" target="_blank">
-                  <figure class="cc-effect"><img  src="images/collage8.jpeg" alt="Image"/>
-                    <figcaption>
-                      <p  class="projfont" style="margin-top: 2%;color: #FFC52F"><strong>Drone for Surveillance purposes</strong></p>
-                      <p  class="projfont" style="font-size:87.5%;color: #FFC52F"> <strong> Embedded Software, Control Systems</strong></p>
-                      <p  class="projfont1"><strong>Developed firmware for an 8 bit quad-copter controller usingAtmega 328p and MPU 6050.•Used Interrupt Routines, I2C communication, PWM and PID Control Loops</strong></p>
+          </article>
 
-                    </figcaption>
-                  </figure></a></div>
+          <!-- Midmark -->
+          <article class="exp-item">
+            <div>
+              <div class="exp-time">JUN 2018 — SEP 2018</div>
+              <div class="exp-company">Midmark Corporation</div>
             </div>
-          </div>
+            <div>
+              <h3 class="exp-role">Applied &amp; Research Technologies Intern</h3>
+              <p class="exp-desc">Created a C# Windows application for BLE read/write telemetry, and validated RTLS distance-vs-RSSI algorithms visualized with Python &amp; Matplotlib.</p>
+            </div>
+          </article>
+
+          <!-- SSN Wireless Lab -->
+          <article class="exp-item">
+            <div>
+              <div class="exp-time">DEC 2016 — JUL 2017</div>
+              <div class="exp-company">SSN Wireless Lab · Chennai</div>
+            </div>
+            <div>
+              <h3 class="exp-role">Software Research Intern</h3>
+              <p class="exp-desc">Engineered smart-bike IoT telemetry using Arduino/ESP8266, air quality sensors, anti-theft GPS/GSM alerts, and a companion Android application.</p>
+            </div>
+          </article>
         </div>
-      </div>
+      </section>
 
+      <!-- Projects Section: 2x2 Grid with Hover Lift -->
+      <section id="projects">
+        <div class="command-line">
+          <span class="prompt-user">aadithya@azure</span>
+          <span class="prompt-path">~/projects</span>
+          <span class="prompt-symbol">$</span>
+          <span class="command-text">ls -la --sort=featured</span>
+        </div>
 
-    </div>
-  </div>
-</div>
+        <div class="section-title">
+          <span>FEATURED REPOSITORIES &amp; PROJECTS</span>
+          <span class="count">2x2 GRID</span>
+        </div>
 
-<div class="section" id="contact">
-  <div class="cc-contact-information" style="background-image: url('images/staticmap.png');">
-    <div class="container">
-      <div class="cc-contact">
-        <div class="row">
-          <div class="col-md-9">
-            <div class="card mb-0" data-aos="zoom-in"  style="border-color:#0047ab">
-              <div class="h4 text-center title">Contact Me</div>
-              <div class="row">
-
-                <div class="col-md-10">
-                  <div class="card-body mycontact" >
-                    <p class="mb-0"><strong>Address </strong></p>
-                    <p class="pb-2">15639 SE 9th Street, Bellevue, WA-98008</p>
-                    <p class="mb-0"><strong>Phone</strong></p>
-                    <p class="pb-2">(424) 270-4698</p>
-                    <p class="mb-0"><strong>Email</strong></p>
-                    <p>aadithyavenkat@gmail.com</p>
-                  </div>
-                </div>
-                <div class="container text-center" style="margin-bottom: 5%"><a class="cc-facebook btn btn-link" href="https://www.facebook.com/aadithya.venkat.1" target="_blank"><i class="fa fa-facebook fa-2x " aria-hidden="true"></i></a><a class="cc-twitter btn btn-link " href="https://twitter.com/AadithyaVenkat" target="_blank"><i class="fa fa-twitter fa-2x " aria-hidden="true"></i></a><a class="cc-github btn btn-link" href="https://github.com/AadithyaVenkat" target="_blank"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a><a class="cc-instagram btn btn-link" href="https://www.instagram.com/aadithyaphotography/?hl=en" target="_blank"><i class="fa fa-instagram fa-2x " aria-hidden="true"></i></a></div>
-
+        <div class="projects-grid">
+          <!-- FitGroup -->
+          <a class="project-card" href="https://github.com/AadithyaVenkat/UCLA-ECE-M119-2018-Final-Project" target="_blank" rel="noreferrer">
+            <div>
+              <div class="project-header">
+                <span class="project-icon-badge">⚡</span>
+                <span class="project-badge">ACTIVE</span>
               </div>
+              <h3 class="project-title">
+                <span>FitGroup</span>
+                <span class="project-arrow">↗</span>
+              </h3>
+              <p class="project-desc">A connected family fitness system using BLE, Wi-Fi, Hexiwear sensors, Raspberry Pi, and Microsoft Azure cloud analytics.</p>
             </div>
-          </div>
+            <div class="project-tags">
+              <span class="project-tag">Embedded</span>
+              <span class="project-tag">Azure IoT</span>
+              <span class="project-tag">BLE</span>
+              <span class="project-tag">Python</span>
+            </div>
+          </a>
+
+          <!-- Movie Recommender -->
+          <a class="project-card" href="https://github.com/AadithyaVenkat/DataMining-UCLAECE219/tree/master/Project3" target="_blank" rel="noreferrer">
+            <div>
+              <div class="project-header">
+                <span class="project-icon-badge">🧭</span>
+                <span class="project-badge">RESEARCH</span>
+              </div>
+              <h3 class="project-title">
+                <span>Movie Recommender</span>
+                <span class="project-arrow">↗</span>
+              </h3>
+              <p class="project-desc">A collaborative-filtering recommendation engine utilizing k-NN, non-negative matrix factorization, and AUC/ROC evaluation.</p>
+            </div>
+            <div class="project-tags">
+              <span class="project-tag">Machine Learning</span>
+              <span class="project-tag">Data Mining</span>
+              <span class="project-tag">k-NN</span>
+            </div>
+          </a>
+
+          <!-- Smart Bicycle Platform -->
+          <article class="project-card">
+            <div>
+              <div class="project-header">
+                <span class="project-icon-badge">⌬</span>
+                <span class="project-badge">IoT / HARDWARE</span>
+              </div>
+              <h3 class="project-title">
+                <span>Smart Bicycle Platform</span>
+              </h3>
+              <p class="project-desc">An integrated cycling IoT platform featuring environmental gas sensing, GPS/GSM security tracking, and an Android mobile app.</p>
+            </div>
+            <div class="project-tags">
+              <span class="project-tag">Arduino</span>
+              <span class="project-tag">Android Studio</span>
+              <span class="project-tag">Sensors</span>
+            </div>
+          </article>
+
+          <!-- Surveillance Drone -->
+          <a class="project-card" href="https://github.com/AadithyaVenkat/SSN-Quadrotor-Internal-funding" target="_blank" rel="noreferrer">
+            <div>
+              <div class="project-header">
+                <span class="project-icon-badge">🌱</span>
+                <span class="project-badge">FIRMWARE</span>
+              </div>
+              <h3 class="project-title">
+                <span>Surveillance Drone</span>
+                <span class="project-arrow">↗</span>
+              </h3>
+              <p class="project-desc">Custom embedded quadcopter flight firmware developed on Atmega 328p and MPU 6050 with I2C and PID control loops.</p>
+            </div>
+            <div class="project-tags">
+              <span class="project-tag">C/C++</span>
+              <span class="project-tag">Atmega328p</span>
+              <span class="project-tag">PID</span>
+              <span class="project-tag">Control</span>
+            </div>
+          </a>
         </div>
-      </div>
-    </div>
+      </section>
+
+      <!-- Terminal Footer -->
+      <footer class="terminal-footer">
+        <div>
+          <span>HOST: aadithyavenkat.github.io</span> · <span>PORT: 443 (HTTPS)</span>
+        </div>
+        <div>
+          <a href="#">↑ Return to top</a>
+        </div>
+      </footer>
+    </main>
   </div>
-</div></div>
-    </div>
-    <footer class="footer" style = "background-color:#0047ab">
-      <div class="h4 title text-center" style = "color: #FFC52F">Aadithya Venkatanarayanan</div>
-      <div class="text-center text-muted">
-        <p style = "color: #FFC52F">&copy; Aadithya Venkatanarayanan 2021. All rights reserved.</p>
-      </div>
-    </footer>
-    <script src="js/core/jquery.3.2.1.min.js"></script>
-    <script src="js/core/popper.min.js"></script>
-    <script src="js/core/bootstrap.min.js"></script>
-    <script src="js/now-ui-kit.js?v=1.1.0"></script>
-    <script src="js/aos.js"></script>
-    <script src="scripts/main.js"></script>
-  </body>
+
+  <script>
+    const themeBtn = document.getElementById("themeToggle");
+    const themeLabel = document.getElementById("themeLabel");
+    const stored = localStorage.getItem("term_theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    function applyTheme(mode) {
+      document.documentElement.dataset.theme = mode;
+      themeLabel.textContent = mode === "light" ? "MODE: CLEAN_LIGHT" : "MODE: CRT_DARK";
+    }
+
+    applyTheme(stored || (prefersDark ? "dark" : "light"));
+
+    themeBtn.addEventListener("click", () => {
+      const current = document.documentElement.dataset.theme;
+      const next = current === "light" ? "dark" : "light";
+      localStorage.setItem("term_theme", next);
+      applyTheme(next);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "t" && !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) {
+        themeBtn.click();
+      }
+    });
+  </script>
+</body>
 </html>
