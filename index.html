@@ -3,828 +3,1133 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Aadithya Venkatanarayanan - Terminal Developer Portfolio">
-  <title>aadithya@azure: ~ (zsh)</title>
+  <meta name="description" content="Aadithya Venkatanarayanan — Software Engineer 2 at Microsoft in Vancouver, building reliable Azure networking and VNET Encryption. Previously Cisco. UCLA M.S.">
+  <title>Aadithya Venkatanarayanan — Systems &amp; Cloud Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      color-scheme: dark light;
-      --bg: #090d13;
-      --bg-surface: #0f1622;
-      --bg-card: rgba(18, 26, 39, 0.85);
-      --border: #1f2d42;
-      --border-glow: #2dd4bf;
-      --text: #e2e8f0;
-      --text-muted: #8092a8;
-      --accent: #2dd4bf;
-      --accent-dim: rgba(45, 212, 191, 0.12);
-      --green: #22c55e;
-      --amber: #f59e0b;
-      --blue: #38bdf8;
-      --purple: #a855f7;
-      --glow: rgba(45, 212, 191, 0.25);
-      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      color-scheme: light;
+      --bg: #f7f9fa;
+      --surface: #edf1f3;
+      --surface-hover: #e2e8eb;
+      --text: #202628;
+      --text-secondary: #48565c;
+      --text-muted: #596970;
+      --line: #ccd6db;
+      --line-strong: #202628;
+      --accent: #006b50;
+      --accent-soft: rgba(0, 107, 80, 0.08);
+      --status: #326a9d;
+      --toolbar: rgba(247, 249, 250, 0.9);
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-serif: "Instrument Serif", Georgia, serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
     }
 
-    [data-theme="light"] {
-      color-scheme: light;
-      --bg: #f3f5f8;
-      --bg-surface: #ffffff;
-      --bg-card: rgba(255, 255, 255, 0.95);
-      --border: #d5dde8;
-      --border-glow: #0d9488;
-      --text: #0f172a;
-      --text-muted: #52637a;
-      --accent: #0d9488;
-      --accent-dim: rgba(13, 148, 136, 0.1);
-      --green: #16a34a;
-      --amber: #d97706;
-      --blue: #0284c7;
-      --purple: #7e22ce;
-      --glow: rgba(13, 148, 136, 0.18);
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #121617;
+      --surface: #1b2224;
+      --surface-hover: #252e31;
+      --text: #f0f5f6;
+      --text-secondary: #bdcbd0;
+      --text-muted: #9baeb5;
+      --line: #39484e;
+      --line-strong: #dce7eb;
+      --accent: #6ee7b7;
+      --accent-soft: rgba(110, 231, 183, 0.1);
+      --status: #86b9ed;
+      --toolbar: rgba(18, 22, 23, 0.92);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
+      letter-spacing: 0 !important;
     }
 
     body {
-      min-height: 100vh;
       background-color: var(--bg);
-      background-image: 
-        radial-gradient(ellipse at 50% 0%, var(--glow), transparent 45rem),
-        linear-gradient(to right, rgba(128, 146, 168, 0.05) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(128, 146, 168, 0.05) 1px, transparent 1px);
-      background-size: 100% 100%, 36px 36px, 36px 36px;
       color: var(--text);
-      font-family: var(--font-mono);
-      font-size: 14px;
+      font-family: var(--font-sans);
+      font-size: 15px;
       line-height: 1.6;
-      padding: 24px 16px 64px;
-      transition: background-color 0.2s ease, color 0.2s ease;
+      -webkit-font-smoothing: antialiased;
     }
 
-    a {
+    .no-transitions,
+    .no-transitions *,
+    .no-transitions *::before,
+    .no-transitions *::after {
+      transition: none !important;
+    }
+
+    a,
+    button {
       color: inherit;
       text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .terminal-window {
-      max-width: 1040px;
-      margin: 0 auto;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: var(--bg-surface);
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04);
-      overflow: hidden;
+    /* Architectural Blueprint Frame */
+    .sheet {
+      max-width: 960px;
+      margin: 0 auto 4.5rem;
+      padding: 0 24px;
     }
 
-    /* Terminal Titlebar */
-    .titlebar {
+    /* Top Spec Bar */
+    .spec-bar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      margin-inline: -24px;
+      padding-inline: 24px;
+      background: var(--toolbar);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      backdrop-filter: blur(20px) saturate(180%);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 18px;
-      background: rgba(15, 22, 34, 0.95);
-      border-bottom: 1px solid var(--border);
-      font-size: 12px;
+      gap: 16px;
+      padding-block: 14px;
+      border-bottom: 1px solid transparent;
+      font-family: var(--font-sans);
+      font-size: 0.8125rem;
+      letter-spacing: 0.06em;
+      text-transform: none;
+      color: var(--text-secondary);
     }
 
-    .window-controls {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .window-btn {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      display: inline-block;
-    }
-
-    .btn-close { background: #ef4444; }
-    .btn-min { background: #eab308; }
-    .btn-max { background: #22c55e; }
-
-    .window-title {
-      font-weight: 600;
-      color: var(--text-muted);
-      letter-spacing: 0.02em;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .window-title span.active-branch {
-      color: var(--amber);
-    }
-
-    .titlebar-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .status-badge {
+    .spec-id {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      color: var(--green);
-      font-weight: 700;
+      gap: 10px;
+      color: var(--text);
+      font-weight: 500;
     }
 
-    .status-badge::before {
-      content: "";
+    .live-dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 8px var(--green);
-      animation: pulse 2s infinite;
+      background: var(--status);
+      display: inline-block;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+    .spec-actions {
+      display: flex;
+      align-items: center;
+      gap: 18px;
     }
 
-    .theme-toggle-btn {
-      background: var(--accent-dim);
-      border: 1px solid var(--border);
-      color: var(--text);
+    .spec-nav {
+      display: flex;
+      gap: 16px;
+    }
+
+    .spec-nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
+
+    .theme-btn {
       font-family: var(--font-mono);
       font-size: 11px;
-      padding: 4px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.15s ease;
-    }
-
-    .theme-toggle-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* Terminal Nav */
-    .terminal-nav {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 16px;
-      padding: 12px 24px;
-      background: rgba(10, 16, 26, 0.4);
-      border-bottom: 1px dashed var(--border);
-      font-size: 13px;
-    }
-
-    .nav-tag {
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    .nav-item {
-      color: var(--text-muted);
-      transition: color 0.15s ease;
-    }
-
-    .nav-item:hover {
-      color: var(--accent);
-      text-decoration: underline;
-      text-underline-offset: 4px;
-    }
-
-    .nav-item.highlight {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    .nav-cta {
-      margin-left: auto;
-      background: var(--accent);
-      color: #051a17 !important;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 4px;
-    }
-
-    .nav-cta:hover {
-      opacity: 0.9;
-      text-decoration: none;
-    }
-
-    /* Terminal Body */
-    .terminal-body {
-      padding: 36px 32px 48px;
-    }
-
-    .command-line {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 18px;
-      font-size: 13px;
-    }
-
-    .prompt-user {
-      color: var(--green);
-      font-weight: 700;
-    }
-
-    .prompt-path {
-      color: var(--blue);
-    }
-
-    .prompt-symbol {
-      color: var(--text);
-      font-weight: 700;
-    }
-
-    .command-text {
-      color: var(--amber);
-    }
-
-    /* Hero */
-    .hero-container {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 32px;
-      align-items: center;
-      padding: 24px 0 36px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 36px;
-    }
-
-    .avatar-frame {
-      width: 110px;
-      height: 110px;
-      border: 2px solid var(--accent);
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, rgba(45, 212, 191, 0.15), rgba(15, 22, 34, 0.9));
-      box-shadow: 0 0 25px var(--glow);
-      font-size: 54px;
-      position: relative;
-    }
-
-    .avatar-frame::after {
-      content: "STATUS: READY";
-      position: absolute;
-      bottom: -10px;
-      background: var(--bg-surface);
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      font-size: 9px;
-      font-weight: 700;
-      padding: 1px 6px;
-      border-radius: 4px;
       letter-spacing: 0.05em;
+      text-transform: uppercase;
+      position: relative;
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid transparent;
+      padding: 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition-property: border-color, background-color, scale;
+      transition-duration: 150ms;
+      transition-timing-function: ease-out;
     }
 
-    .hero-info h1 {
-      font-size: 32px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      margin-bottom: 8px;
-      line-height: 1.2;
+    .theme-btn::before {
+      content: "";
+      position: absolute;
+      inset: 9px 0;
+      border-radius: 16px;
+      background: var(--text-muted);
     }
 
-    .hero-info h1 .cursor {
-      display: inline-block;
-      width: 10px;
-      height: 1.1em;
+    .theme-btn::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 12px;
+      left: 3px;
+      border-radius: 50%;
+      background: #ffffff;
+    }
+
+    .theme-btn[aria-checked="true"]::before {
       background: var(--accent);
-      vertical-align: -0.15em;
-      margin-left: 4px;
-      animation: blink 1s step-end infinite;
     }
 
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+    .theme-btn[aria-checked="true"]::after {
+      left: 19px;
     }
 
-    .tagline {
-      font-size: 15px;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-      line-height: 1.6;
+    #themeLabel {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
     }
 
-    .tagline strong {
+    /* Hero Section */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 40px;
+      padding: 3rem 0;
+      border-bottom: 1px solid var(--line);
+      align-items: end;
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 4rem;
+      font-optical-sizing: auto;
+      overflow-wrap: anywhere;
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 em {
+      font-style: italic;
       color: var(--accent);
     }
 
-    .quick-links {
+    .lead {
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      max-width: 58ch;
+      margin-bottom: 28px;
+    }
+
+    .lead strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .action-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .cmd-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
-      border: 1px solid var(--border);
-      background: var(--bg-card);
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text);
-      transition: all 0.15s ease;
-    }
-
-    .cmd-pill:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      box-shadow: 0 4px 14px var(--accent-dim);
-      transform: translateY(-2px);
-    }
-
-    /* Section Headers */
-    .section-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 20px;
-      display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .section-title span.count {
-      color: var(--accent);
+    .btn-primary {
+      font-family: var(--font-mono);
       font-size: 12px;
-      background: var(--accent-dim);
-      padding: 2px 8px;
-      border-radius: 12px;
-      border: 1px solid rgba(45, 212, 191, 0.2);
-    }
-
-    /* Projects 2x2 Grid */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-      margin-bottom: 44px;
-    }
-
-    .project-card {
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: var(--bg-card);
-      padding: 22px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-card:hover {
-      transform: translateY(-6px);
-      border-color: var(--accent);
-      box-shadow: 0 16px 36px -10px var(--glow);
-    }
-
-    .project-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
-
-    .project-icon-badge {
+      font-weight: 500;
+      padding: 9px 14px 9px 16px;
+      background: var(--accent);
+      color: var(--bg);
+      border-radius: 8px;
+      min-height: 44px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-size: 18px;
+      transition-property: opacity, scale;
+      transition-duration: 150ms;
+      transition-timing-function: ease-out;
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 8px 12px 8px 14px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      min-height: 44px;
+      color: var(--text-secondary);
+      transition-property: border-color, color, background-color, scale;
+      transition-duration: 150ms;
+      transition-timing-function: ease-out;
+    }
+
+    .btn-ghost[href^="mailto:"] {
+      padding-inline: 14px;
+    }
+
+    :is(.theme-btn, .btn-primary, .btn-ghost, .filter-chip):not(:disabled):active {
+      opacity: 0.8;
+    }
+
+    :is(.theme-btn, .btn-primary, .btn-ghost, .filter-chip):disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    /* Spec Summary Block */
+    .spec-box {
+      border-left: 1px solid var(--line);
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    .spec-item-label {
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 10px;
+      margin-bottom: 2px;
+    }
+
+    .spec-item-val {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* Interactive Domain Filter Strip */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .filter-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 4px;
+      background: var(--surface);
+      border-radius: 8px;
+    }
+
+    .filter-chip {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 5px 11px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-radius: 3px;
+      transition-property: background-color, opacity, scale;
+      transition-duration: 150ms;
+      transition-timing-function: ease-out;
+    }
+
+    .filter-chip.active {
+      background: var(--bg);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .fluid-strip {
+      position: relative;
+      isolation: isolate;
+      --highlight-travel: 160ms;
+      --highlight-fade: 80ms;
+    }
+
+    .fluid-highlight {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      pointer-events: none;
+      border-radius: 3px;
+      background: var(--surface-hover);
+      opacity: 0;
+      transition: opacity var(--highlight-fade) ease-out;
+    }
+
+    .filter-pills .fluid-highlight {
+      background: var(--bg);
+    }
+
+    .fluid-strip .filter-chip.active {
+      background: transparent;
+    }
+
+    @media (hover: hover) {
+      .fluid-strip .filter-chip:not(.active):not(:disabled):hover {
+        background: transparent;
+      }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .fluid-highlight[data-ready] {
+        transition: transform var(--highlight-travel) cubic-bezier(0.2, 0, 0, 1), opacity var(--highlight-fade) ease-out;
+      }
+    }
+
+    /* Section Grid Layout */
+    .section-block {
+      scroll-margin-top: 7rem;
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 32px;
+      padding: 40px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      padding-top: 4px;
+    }
+
+    .section-meta .index-num {
+      color: var(--accent);
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    .section-meta .sub-note {
+      display: block;
+      margin-top: 8px;
+      font-size: 10px;
+      line-height: 1.5;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    /* Experience Ledger */
+    .ledger {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ledger-row {
+      display: grid;
+      grid-template-columns: 155px 1fr;
+      gap: 24px;
+      padding: 20px 14px;
+      border-top: 1px solid var(--line);
+      transition-property: background-color, opacity;
+      transition-duration: 150ms;
+      transition-timing-function: ease-out;
+    }
+
+    .ledger-row:first-child {
+      border-top: none;
+      padding-top: 4px;
+    }
+
+    .ledger-period {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      padding-top: 3px;
+    }
+
+    .ledger-loc {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .ledger-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .ledger-role {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .ledger-org {
+      font-family: var(--font-mono);
+      font-size: 12px;
       color: var(--accent);
     }
 
-    .project-badge {
-      font-size: 10px;
-      font-weight: 700;
-      padding: 2px 7px;
-      border-radius: 4px;
-      background: rgba(34, 197, 94, 0.12);
-      color: var(--green);
-      border: 1px solid rgba(34, 197, 94, 0.3);
+    .ledger-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .resume-highlights {
+      padding-left: 18px;
+    }
+
+    .resume-highlights li + li {
+      margin-top: 10px;
+    }
+
+    .resume-details {
+      display: grid;
+      gap: 20px;
+      min-width: 0;
+    }
+
+    .skills-list {
+      display: grid;
+      grid-template-columns: 100px minmax(0, 1fr);
+      gap: 16px;
+      font-size: 14px;
+    }
+
+    .skills-list dt {
+      font-weight: 600;
+    }
+
+    .skills-list dd {
+      color: var(--text-secondary);
+    }
+
+    /* Projects Architectural Matrix */
+    .project-matrix {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .matrix-cell {
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+      background: var(--surface);
+      transition-property: background-color, opacity;
+      transition-duration: 150ms;
+      transition-timing-function: ease-out;
+    }
+
+    .cell-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .cell-domain {
+      color: var(--accent);
+      text-transform: uppercase;
       letter-spacing: 0.05em;
     }
 
-    .project-title {
-      font-size: 18px;
-      font-weight: 700;
+    .cell-title {
+      font-size: 17px;
+      font-weight: 600;
       color: var(--text);
       margin-bottom: 8px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 8px;
     }
 
-    .project-arrow {
+    .cell-arrow {
+      font-family: var(--font-mono);
+      font-size: 14px;
       color: var(--text-muted);
-      font-size: 15px;
-      transition: transform 0.15s ease, color 0.15s ease;
     }
 
-    .project-card:hover .project-arrow {
-      color: var(--accent);
-      transform: translate(3px, -3px);
-    }
-
-    .project-desc {
-      font-size: 13px;
-      color: var(--text-muted);
+    .cell-desc {
+      font-size: 13.5px;
+      color: var(--text-secondary);
       line-height: 1.55;
-      margin-bottom: 18px;
     }
 
-    .project-tags {
+    .cell-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
+      font-family: var(--font-mono);
       font-size: 11px;
     }
 
-    .project-tag {
-      background: var(--accent-dim);
-      color: var(--accent);
-      padding: 2px 8px;
-      border-radius: 4px;
-      border: 1px solid rgba(45, 212, 191, 0.2);
+    .cell-tag {
+      padding: 2px 7px;
+      border: 1px solid var(--line);
+      color: var(--text-secondary);
+      border-radius: 2px;
     }
 
-    /* Experience Terminal Log */
-    .experience-list {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 36px;
+    /* Dimmed state when filtering */
+    .is-dimmed {
+      opacity: 0.22;
+      pointer-events: none;
     }
 
-    .exp-item {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: var(--bg-card);
-      padding: 18px 22px;
+    /* Education & Credentials Row */
+    .credentials-grid {
       display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 20px;
-      align-items: start;
-      transition: border-color 0.15s ease, transform 0.15s ease;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
     }
 
-    .exp-item:hover {
-      border-color: var(--border-glow);
-      transform: translateX(4px);
+    .cred-card {
+      padding: 0;
     }
 
-    .exp-time {
-      font-size: 11px;
-      color: var(--amber);
-      font-weight: 700;
-      letter-spacing: 0.03em;
-    }
-
-    .exp-company {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .exp-role {
+    .cred-degree {
       font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 6px;
+      font-weight: 600;
+      margin-bottom: 4px;
     }
 
-    .exp-desc {
-      font-size: 13px;
+    .cred-school {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .cred-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
       color: var(--text-muted);
-      line-height: 1.5;
     }
 
-    /* Terminal Footer */
-    .terminal-footer {
-      border-top: 1px dashed var(--border);
-      padding-top: 24px;
+    /* Footer Colophon */
+    .colophon {
+      padding: 22px 0;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 16px;
-      font-size: 12px;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
       color: var(--text-muted);
     }
 
-    .terminal-footer a:hover {
-      color: var(--accent);
-      text-decoration: underline;
+    /* Hover effects only on hover-capable pointers */
+    @media (hover: hover) {
+      .spec-nav a:hover {
+        color: var(--accent);
+      }
+      .theme-btn:not(:disabled):hover {
+        border-color: var(--text);
+        background: var(--surface);
+      }
+      .btn-primary:hover {
+        opacity: 0.88;
+      }
+      .btn-ghost:hover {
+        border-color: var(--text);
+        color: var(--text);
+        background: var(--surface);
+      }
+      .filter-chip:not(.active):not(:disabled):hover {
+        border-color: var(--text);
+        color: var(--text);
+      }
+      .ledger-row:hover {
+        background: var(--surface);
+      }
+      a.matrix-cell:hover {
+        background: var(--surface-hover);
+      }
+      a.matrix-cell:hover .cell-arrow {
+        color: var(--accent);
+      }
+      .colophon a:hover {
+        color: var(--text);
+      }
     }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .projects-grid {
-        grid-template-columns: 1fr;
+    /* Motion gated behind prefers-reduced-motion: no-preference */
+    @media (prefers-reduced-motion: no-preference) {
+      html {
+        scroll-behavior: smooth;
       }
-      .exp-item {
+
+      .theme-btn:not(:disabled):not([data-static]):active,
+      .btn-primary:not(:disabled):not([data-static]):active,
+      .btn-ghost:not(:disabled):not([data-static]):active,
+      .filter-chip:not(:disabled):not([data-static]):active {
+        scale: 0.96;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .sheet {
+        margin: 0 auto 40px;
+        padding: 0 16px;
+      }
+      .spec-bar {
+        margin-inline: -16px;
+        padding-inline: 16px;
+        flex-wrap: wrap;
+        gap: 0;
+      }
+      .spec-id {
+        width: 100%;
+      }
+      .spec-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .spec-nav {
+        gap: 12px;
+      }
+      .hero h1 {
+        font-size: 2.25rem;
+      }
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 32px 0;
+      }
+      .spec-box {
+        border-left: none;
+        border-top: 1px solid var(--line);
+        padding-left: 0;
+        padding-top: 16px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .section-block {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 28px 0;
+      }
+      .ledger-row {
         grid-template-columns: 1fr;
         gap: 6px;
+        padding: 16px 8px;
       }
-      .hero-container {
+      .project-matrix,
+      .credentials-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
       }
-      .terminal-body {
-        padding: 24px 18px;
+    }
+
+    @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+      .spec-bar {
+        background: var(--bg);
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        border-bottom-color: var(--text);
       }
-      .nav-cta {
-        margin-left: 0;
+    }
+
+    @media (forced-colors: active) {
+      .theme-btn::before {
+        border: 1px solid ButtonText;
+        background: Canvas;
+      }
+      .theme-btn::after {
+        background: ButtonText;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="terminal-window">
-    <!-- Titlebar -->
-    <header class="titlebar">
-      <div class="window-controls">
-        <span class="window-btn btn-close"></span>
-        <span class="window-btn btn-min"></span>
-        <span class="window-btn btn-max"></span>
+  <div class="sheet">
+    <!-- Top Spec Header -->
+    <header class="spec-bar">
+      <div class="spec-id">
+        <span class="live-dot" aria-hidden="true"></span>
+        <span>Aadithya Venkat</span>
       </div>
-      <div class="window-title">
-        <span>aadithya@azure: ~ (zsh)</span>
-        <span class="active-branch">git:(main)</span>
-      </div>
-      <div class="titlebar-actions">
-        <div class="status-badge">ONLINE</div>
-        <button class="theme-toggle-btn" id="themeToggle" type="button" aria-label="Toggle theme">
-          <span id="themeLabel">MODE: CRT_DARK</span>
+      <div class="spec-actions">
+        <nav class="spec-nav" aria-label="Section navigation">
+          <a href="#experience">Experience</a>
+          <a href="#projects">Projects</a>
+          <a href="#education">Education</a>
+        </nav>
+        <button class="theme-btn" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Dark appearance" title="Dark appearance">
+          <span id="themeLabel">Dark appearance</span>
         </button>
       </div>
     </header>
 
-    <!-- Navigation / Subheader -->
-    <nav class="terminal-nav" aria-label="Quick links">
-      <span class="nav-tag">$ cd</span>
-      <a class="nav-item highlight" href="#about">~/about</a>
-      <a class="nav-item" href="#experience">~/experience</a>
-      <a class="nav-item" href="#projects">~/projects</a>
-      <a class="nav-item" href="mailto:aadithyavenkat@gmail.com">~/contact</a>
-      <a class="nav-cta" href="downloads/Aadithya_Venkat_Software_Resume.pdf" download>GET resume.pdf ↗</a>
-    </nav>
+    <main>
+      <!-- Hero -->
+      <section class="hero" aria-label="Introduction">
+        <div>
+          <div class="eyebrow">Software Engineer 2 · Microsoft · Vancouver, BC</div>
+          <h1>Aadithya<br><em>Venkatanarayanan</em></h1>
+          <p class="lead">
+            I build <strong>reliable, encrypted cloud networking</strong> at Microsoft Azure, from VNET Encryption and live migration to fleet-wide reliability. Previously at Cisco, working on IoT edge systems. M.S. in Electrical &amp; Computer Engineering, UCLA.
+          </p>
+          <div class="action-row">
+            <a class="btn-primary" href="downloads/Aadithya_Venkat_Software_Resume.pdf" download>
+              <span>Download Resume (PDF)</span>
+              <span>↓</span>
+            </a>
+            <a class="btn-ghost" href="https://github.com/AadithyaVenkat" target="_blank" rel="noreferrer">GitHub ↗</a>
+            <a class="btn-ghost" href="https://www.linkedin.com/in/aadithyav" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+            <a class="btn-ghost" href="mailto:aadithyavenkat@gmail.com">aadithyavenkat@gmail.com</a>
+          </div>
+        </div>
 
-    <!-- Main Terminal Area -->
-    <main class="terminal-body" id="about">
-      
-      <!-- Command prompt line -->
-      <div class="command-line">
-        <span class="prompt-user">aadithya@azure</span>
-        <span class="prompt-path">~</span>
-        <span class="prompt-symbol">$</span>
-        <span class="command-text">whoami --verbose --title</span>
+      </section>
+
+      <!-- Interactive Domain Filter -->
+      <div class="filter-bar" role="region" aria-label="Filter portfolio by engineering domain">
+        <span class="filter-label">Focus</span>
+        <div class="filter-pills">
+          <button class="filter-chip active" type="button" data-filter="all">All Work (4)</button>
+          <button class="filter-chip" type="button" data-filter="cloud">Cloud &amp; Edge</button>
+          <button class="filter-chip" type="button" data-filter="iot">IoT &amp; Embedded</button>
+          <button class="filter-chip" type="button" data-filter="ml">Machine Learning</button>
+        </div>
       </div>
 
-      <!-- Hero / Bio -->
-      <section class="hero-container" aria-label="Developer summary">
-        <div class="avatar-frame" aria-hidden="true">👨‍💻</div>
-        <div class="hero-info">
-          <h1>Aadithya Venkatanarayanan<span class="cursor"></span></h1>
-          <p class="tagline">
-            <strong>Software Development Engineer @ Microsoft Azure</strong><br>
-            UCLA ECE M.S. graduate focused on cloud networking, edge platforms, and resilient distributed systems.
-          </p>
-          <div class="quick-links">
-            <a class="cmd-pill" href="https://github.com/AadithyaVenkat" target="_blank" rel="noreferrer">
-              <span>🐙</span> github.com/AadithyaVenkat
-            </a>
-            <a class="cmd-pill" href="https://www.linkedin.com/in/aadithyav" target="_blank" rel="noreferrer">
-              <span>💼</span> linkedin.com/in/aadithyav
-            </a>
-            <a class="cmd-pill" href="mailto:aadithyavenkat@gmail.com">
-              <span>✉️</span> aadithyavenkat@gmail.com
-            </a>
+      <!-- 01 / Experience -->
+      <section class="section-block" id="experience">
+        <div class="section-meta">
+          <span class="index-num">01 // EXPERIENCE</span>
+          <span>Career Ledger</span>
+          <span class="sub-note">2019 — Present<br>Cloud networking &amp; IoT edge systems</span>
+        </div>
+
+        <div class="ledger">
+          <article class="ledger-row" data-domain="cloud">
+            <div>
+              <div class="ledger-period">SEP 2021 — PRESENT</div>
+              <div class="ledger-loc">Vancouver, BC</div>
+            </div>
+            <div>
+              <div class="ledger-head">
+                <h2 class="ledger-role">Software Engineer 2</h2>
+                <span class="ledger-org">Microsoft Corporation</span>
+              </div>
+              <ul class="ledger-desc resume-highlights">
+                <li>Owned VNET Encryption restoration during datapath servicing, integrating cross-platform APIs for sub-second servicing across millions of Azure hosts.</li>
+                <li>Shipped live migration support for VNET-encrypted virtual machines across multiple network topologies, preserving encryption continuity and availability SLAs.</li>
+                <li>Led automated test infrastructure and end-to-end validation for servicing, migration, and failure scenarios; owned safe feature rollouts across Azure host fleets.</li>
+                <li>Drove root-cause analysis and permanent fixes for production outages, memory leaks, and object corruption. Partnered across teams to resolve DNS, dataplane/control-plane, and driver-version issues, including incidents affecting S500 customers.</li>
+                <li>Built automated fleet mitigations for critical failures such as counter underflows, and mentored engineers in debugging, validation, and rollout practices.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="ledger-row" data-domain="iot">
+            <div>
+              <div class="ledger-period">FEB 2019 — SEP 2021</div>
+              <div class="ledger-loc">Milpitas, CA</div>
+            </div>
+            <div>
+              <div class="ledger-head">
+                <h2 class="ledger-role">Software Engineer</h2>
+                <span class="ledger-org">Cisco Systems</span>
+              </div>
+              <ul class="ledger-desc resume-highlights">
+                <li>Developed and maintained C++, Python, and Shell back-end APIs for the Cisco IC3000 IoT Edge Compute module, covering authentication, networking, and server configuration.</li>
+                <li>Improved reset, reboot, user, image, and IP-address management; resolved field issues to improve software reliability.</li>
+                <li>Built automatic SFP detection and configuration with tri-speed auto-negotiation, LED support, and CLI-based vendor information.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 02 / Selected Systems & Projects -->
+      <section class="section-block" id="projects">
+        <div class="section-meta">
+          <span class="index-num">02 // SYSTEMS</span>
+          <span>Selected Builds</span>
+          <span class="sub-note">Hardware-to-cloud prototypes &amp; research</span>
+        </div>
+
+        <div class="project-matrix">
+          <article class="matrix-cell" data-domain="cloud iot">
+            <div>
+              <div class="cell-top">
+                <span>WINTER 2017</span>
+                <span class="cell-domain">Cloud &amp; IoT</span>
+              </div>
+              <h3 class="cell-title">
+                <span>Smart System-Aided Bike</span>
+              </h3>
+              <p class="cell-desc">
+                An IoT-enabled bike with theft prevention and air-quality monitoring built on Arduino/ESP8266. Integrated cloud data transfer and an Android app with pollution mapping, authentication, and chat through Firebase.
+              </p>
+            </div>
+            <div class="cell-tags">
+              <span class="cell-tag">C++</span>
+              <span class="cell-tag">Java</span>
+              <span class="cell-tag">ESP8266</span>
+              <span class="cell-tag">Firebase</span>
+            </div>
+          </article>
+
+          <a class="matrix-cell" data-domain="ml" href="https://github.com/AadithyaVenkat/DataMining-UCLAECE219/tree/master/Project3" target="_blank" rel="noreferrer">
+            <div>
+              <div class="cell-top">
+                <span>WINTER 2018</span>
+                <span class="cell-domain">ML &amp; Data Mining</span>
+              </div>
+              <h3 class="cell-title">
+                <span>Collaborative Movie Recommender</span>
+                <span class="cell-arrow">↗</span>
+              </h3>
+              <p class="cell-desc">
+                Collaborative filtering with k-NN and non-negative matrix factorization (NNMF), evaluated using ROC, area under the curve, RMSE, and precision-recall curves.
+              </p>
+            </div>
+            <div class="cell-tags">
+              <span class="cell-tag">Matrix Factorization</span>
+              <span class="cell-tag">k-NN</span>
+              <span class="cell-tag">Python</span>
+            </div>
+          </a>
+
+        </div>
+      </section>
+
+      <!-- 03 / Education -->
+      <section class="section-block" id="education">
+        <div class="section-meta">
+          <span class="index-num">03 // EDUCATION</span>
+          <span>Academic</span>
+        </div>
+
+        <div class="resume-details">
+          <div class="cred-card">
+            <div class="cred-degree">M.S. in Electrical &amp; Computer Engineering</div>
+            <div class="cred-school">University of California, Los Angeles (UCLA)</div>
+            <div class="cred-meta">December 2018 · CGPA: 3.83/4.0</div>
+          </div>
+          <div>
+            <h3 class="cred-degree">Selected coursework</h3>
+            <p class="ledger-desc">Large Scale Data Mining; Advanced Computer Networks; Networked Embedded Systems; Human Computer Interaction; Security in Embedded Systems; Network Protocols &amp; Software Design for Wireless &amp; Mobile Systems; Machine Learning.</p>
           </div>
         </div>
       </section>
 
-      <!-- Experience Section -->
-      <section id="experience">
-        <div class="command-line">
-          <span class="prompt-user">aadithya@azure</span>
-          <span class="prompt-path">~/experience</span>
-          <span class="prompt-symbol">$</span>
-          <span class="command-text">git log --oneline --graph --all</span>
+      <section class="section-block" id="skills" aria-label="Technical skills">
+        <div class="section-meta">
+          <span class="index-num">04 // SKILLS</span>
+          <span>Technical Toolkit</span>
         </div>
-
-        <div class="section-title">
-          <span>CAREER TIMELINE</span>
-          <span class="count">4 ENTRIES</span>
-        </div>
-
-        <div class="experience-list">
-          <!-- Microsoft Azure -->
-          <article class="exp-item">
-            <div>
-              <div class="exp-time">SEP 2021 — PRESENT</div>
-              <div class="exp-company">Microsoft · Redmond, WA</div>
-            </div>
-            <div>
-              <h3 class="exp-role">Software Development Engineer, Azure Core</h3>
-              <p class="exp-desc">Engineering reliable cloud networking services and building seamless edge deployment capabilities for enterprise cloud infrastructure.</p>
-            </div>
-          </article>
-
-          <!-- Cisco Systems -->
-          <article class="exp-item">
-            <div>
-              <div class="exp-time">FEB 2019 — SEP 2021</div>
-              <div class="exp-company">Cisco Systems · San Jose, CA</div>
-            </div>
-            <div>
-              <h3 class="exp-role">Software Development Engineer, IIoT</h3>
-              <p class="exp-desc">Engineered software for Industrial Internet of Things platforms, device connectivity stacks, and industrial edge software architectures.</p>
-            </div>
-          </article>
-
-          <!-- Midmark -->
-          <article class="exp-item">
-            <div>
-              <div class="exp-time">JUN 2018 — SEP 2018</div>
-              <div class="exp-company">Midmark Corporation</div>
-            </div>
-            <div>
-              <h3 class="exp-role">Applied &amp; Research Technologies Intern</h3>
-              <p class="exp-desc">Created a C# Windows application for BLE read/write telemetry, and validated RTLS distance-vs-RSSI algorithms visualized with Python &amp; Matplotlib.</p>
-            </div>
-          </article>
-
-          <!-- SSN Wireless Lab -->
-          <article class="exp-item">
-            <div>
-              <div class="exp-time">DEC 2016 — JUL 2017</div>
-              <div class="exp-company">SSN Wireless Lab · Chennai</div>
-            </div>
-            <div>
-              <h3 class="exp-role">Software Research Intern</h3>
-              <p class="exp-desc">Engineered smart-bike IoT telemetry using Arduino/ESP8266, air quality sensors, anti-theft GPS/GSM alerts, and a companion Android application.</p>
-            </div>
-          </article>
-        </div>
+        <dl class="skills-list">
+          <dt>Languages</dt>
+          <dd>C, C++, Python, C#, Shell, PowerShell</dd>
+          <dt>Platforms</dt>
+          <dd>Linux, Yocto, Azure DevOps, Git</dd>
+          <dt>Tools</dt>
+          <dd>Scikit-learn, NumPy, Pandas, KustoQL, VS Code, Copilot</dd>
+          <dt>Cloud</dt>
+          <dd>Microsoft Azure, Google Firebase</dd>
+        </dl>
       </section>
 
-      <!-- Projects Section: 2x2 Grid with Hover Lift -->
-      <section id="projects">
-        <div class="command-line">
-          <span class="prompt-user">aadithya@azure</span>
-          <span class="prompt-path">~/projects</span>
-          <span class="prompt-symbol">$</span>
-          <span class="command-text">ls -la --sort=featured</span>
+      <section class="section-block" id="publication" aria-label="Publication">
+        <div class="section-meta">
+          <span class="index-num">05 // PUBLICATION</span>
+          <span>Research</span>
         </div>
-
-        <div class="section-title">
-          <span>FEATURED REPOSITORIES &amp; PROJECTS</span>
-          <span class="count">2x2 GRID</span>
-        </div>
-
-        <div class="projects-grid">
-          <!-- FitGroup -->
-          <a class="project-card" href="https://github.com/AadithyaVenkat/UCLA-ECE-M119-2018-Final-Project" target="_blank" rel="noreferrer">
-            <div>
-              <div class="project-header">
-                <span class="project-icon-badge">⚡</span>
-                <span class="project-badge">ACTIVE</span>
-              </div>
-              <h3 class="project-title">
-                <span>FitGroup</span>
-                <span class="project-arrow">↗</span>
-              </h3>
-              <p class="project-desc">A connected family fitness system using BLE, Wi-Fi, Hexiwear sensors, Raspberry Pi, and Microsoft Azure cloud analytics.</p>
-            </div>
-            <div class="project-tags">
-              <span class="project-tag">Embedded</span>
-              <span class="project-tag">Azure IoT</span>
-              <span class="project-tag">BLE</span>
-              <span class="project-tag">Python</span>
-            </div>
-          </a>
-
-          <!-- Movie Recommender -->
-          <a class="project-card" href="https://github.com/AadithyaVenkat/DataMining-UCLAECE219/tree/master/Project3" target="_blank" rel="noreferrer">
-            <div>
-              <div class="project-header">
-                <span class="project-icon-badge">🧭</span>
-                <span class="project-badge">RESEARCH</span>
-              </div>
-              <h3 class="project-title">
-                <span>Movie Recommender</span>
-                <span class="project-arrow">↗</span>
-              </h3>
-              <p class="project-desc">A collaborative-filtering recommendation engine utilizing k-NN, non-negative matrix factorization, and AUC/ROC evaluation.</p>
-            </div>
-            <div class="project-tags">
-              <span class="project-tag">Machine Learning</span>
-              <span class="project-tag">Data Mining</span>
-              <span class="project-tag">k-NN</span>
-            </div>
-          </a>
-
-          <!-- Smart Bicycle Platform -->
-          <article class="project-card">
-            <div>
-              <div class="project-header">
-                <span class="project-icon-badge">⌬</span>
-                <span class="project-badge">IoT / HARDWARE</span>
-              </div>
-              <h3 class="project-title">
-                <span>Smart Bicycle Platform</span>
-              </h3>
-              <p class="project-desc">An integrated cycling IoT platform featuring environmental gas sensing, GPS/GSM security tracking, and an Android mobile app.</p>
-            </div>
-            <div class="project-tags">
-              <span class="project-tag">Arduino</span>
-              <span class="project-tag">Android Studio</span>
-              <span class="project-tag">Sensors</span>
-            </div>
-          </article>
-
-          <!-- Surveillance Drone -->
-          <a class="project-card" href="https://github.com/AadithyaVenkat/SSN-Quadrotor-Internal-funding" target="_blank" rel="noreferrer">
-            <div>
-              <div class="project-header">
-                <span class="project-icon-badge">🌱</span>
-                <span class="project-badge">FIRMWARE</span>
-              </div>
-              <h3 class="project-title">
-                <span>Surveillance Drone</span>
-                <span class="project-arrow">↗</span>
-              </h3>
-              <p class="project-desc">Custom embedded quadcopter flight firmware developed on Atmega 328p and MPU 6050 with I2C and PID control loops.</p>
-            </div>
-            <div class="project-tags">
-              <span class="project-tag">C/C++</span>
-              <span class="project-tag">Atmega328p</span>
-              <span class="project-tag">PID</span>
-              <span class="project-tag">Control</span>
-            </div>
-          </a>
+        <div>
+          <h2 class="cred-degree">Design of sensor system for air pollution and human vital monitoring for connected cyclists</h2>
+          <p class="cred-school">IET Communications · 2019</p>
         </div>
       </section>
-
-      <!-- Terminal Footer -->
-      <footer class="terminal-footer">
-        <div>
-          <span>HOST: aadithyavenkat.github.io</span> · <span>PORT: 443 (HTTPS)</span>
-        </div>
-        <div>
-          <a href="#">↑ Return to top</a>
-        </div>
-      </footer>
     </main>
+
+    <!-- Colophon -->
+    <footer class="colophon">
+      <div>AADITHYA VENKATANARAYANAN · SINGLE-SHEET EDITION</div>
+      <div>
+        <a href="#">↑ Top of sheet</a>
+      </div>
+    </footer>
   </div>
 
   <script>
     const themeBtn = document.getElementById("themeToggle");
     const themeLabel = document.getElementById("themeLabel");
-    const stored = localStorage.getItem("term_theme");
+    const stored = localStorage.getItem("dossier_theme");
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    let themeFrame;
 
     function applyTheme(mode) {
+      cancelAnimationFrame(themeFrame);
+      document.documentElement.classList.add("no-transitions");
+      void document.documentElement.offsetHeight;
       document.documentElement.dataset.theme = mode;
-      themeLabel.textContent = mode === "light" ? "MODE: CLEAN_LIGHT" : "MODE: CRT_DARK";
+      themeBtn.setAttribute("aria-checked", String(mode === "dark"));
+      void document.documentElement.offsetHeight;
+      themeFrame = requestAnimationFrame(() => {
+        document.documentElement.classList.remove("no-transitions");
+      });
     }
 
     applyTheme(stored || (prefersDark ? "dark" : "light"));
 
     themeBtn.addEventListener("click", () => {
-      const current = document.documentElement.dataset.theme;
-      const next = current === "light" ? "dark" : "light";
-      localStorage.setItem("term_theme", next);
+      const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      localStorage.setItem("dossier_theme", next);
       applyTheme(next);
     });
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "t" && !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) {
-        themeBtn.click();
-      }
+    const chips = document.querySelectorAll(".filter-chip");
+    const filterables = document.querySelectorAll("[data-domain]");
+
+    chips.forEach((chip) => {
+      chip.setAttribute("aria-pressed", String(chip.classList.contains("active")));
+      chip.addEventListener("click", () => {
+        const filter = chip.dataset.filter;
+        chips.forEach((option) => {
+          option.classList.toggle("active", option === chip);
+          option.setAttribute("aria-pressed", String(option === chip));
+        });
+        filterables.forEach((item) => {
+          const domains = item.dataset.domain.split(" ");
+          const match = filter === "all" || domains.includes(filter);
+          item.classList.toggle("is-dimmed", !match);
+          item.inert = !match;
+        });
+      });
     });
+
+    function enableFluidHighlight(strip, selector) {
+      const items = [...strip.querySelectorAll(selector)];
+      const highlight = document.createElement("span");
+      const hoverMedia = matchMedia("(hover: hover)");
+      const motionMedia = matchMedia("(prefers-reduced-motion: reduce)");
+      let hovered = null;
+      let frame;
+      highlight.className = "fluid-highlight";
+      highlight.setAttribute("aria-hidden", "true");
+      strip.classList.add("fluid-strip");
+      strip.prepend(highlight);
+
+      function render(snap = false) {
+        const focused = items.find(item => item === document.activeElement);
+        const selected = items.find(item => item.getAttribute("aria-pressed") === "true");
+        const target = hovered || focused || selected;
+        cancelAnimationFrame(frame);
+        if (!target || target.disabled) {
+          highlight.style.opacity = "0";
+          highlight.removeAttribute("data-ready");
+          return;
+        }
+        if (snap || motionMedia.matches) highlight.removeAttribute("data-ready");
+        highlight.style.width = `${target.offsetWidth}px`;
+        highlight.style.height = `${target.offsetHeight}px`;
+        highlight.style.transform = `translate(${target.offsetLeft}px, ${target.offsetTop}px)`;
+        highlight.style.opacity = "1";
+        highlight.dataset.target = target.textContent.trim();
+        if (!highlight.hasAttribute("data-ready")) {
+          void highlight.offsetWidth;
+          frame = requestAnimationFrame(() => highlight.setAttribute("data-ready", ""));
+        }
+      }
+
+      strip.addEventListener("pointermove", event => {
+        if (!hoverMedia.matches || event.pointerType === "touch") return;
+        let nearest = null;
+        let shortest = Infinity;
+        for (const item of items) {
+          if (item.disabled) continue;
+          const bounds = item.getBoundingClientRect();
+          const horizontal = Math.max(bounds.left - event.clientX, 0, event.clientX - bounds.right);
+          const vertical = Math.max(bounds.top - event.clientY, 0, event.clientY - bounds.bottom);
+          const distance = horizontal * horizontal + vertical * vertical;
+          if (distance < shortest) {
+            shortest = distance;
+            nearest = item;
+          }
+        }
+        if (nearest !== hovered) {
+          hovered = nearest;
+          render();
+        }
+      });
+      strip.addEventListener("pointerleave", () => {
+        hovered = null;
+        render();
+      });
+      strip.addEventListener("pointercancel", () => {
+        hovered = null;
+        render();
+      });
+      strip.addEventListener("focusin", () => {
+        hovered = null;
+        render();
+      });
+      strip.addEventListener("focusout", () => queueMicrotask(() => render()));
+      strip.addEventListener("click", () => render());
+      hoverMedia.addEventListener("change", () => {
+        hovered = null;
+        render(true);
+      });
+      motionMedia.addEventListener("change", () => render(true));
+      const observer = new ResizeObserver(() => render(true));
+      observer.observe(strip);
+      items.forEach(item => observer.observe(item));
+      render(true);
+    }
+
+    enableFluidHighlight(document.querySelector(".spec-nav"), "a");
+    enableFluidHighlight(document.querySelector(".filter-pills"), "button");
   </script>
 </body>
 </html>
