@@ -3,1133 +3,342 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Aadithya Venkatanarayanan — Software Engineer 2 at Microsoft in Vancouver, building reliable Azure networking and VNET Encryption. Previously Cisco. UCLA M.S.">
-  <title>Aadithya Venkatanarayanan — Systems &amp; Cloud Engineer</title>
+  <meta name="description" content="Aadithya Venkatanarayanan, Software Engineer 2 at Microsoft in Vancouver. Cloud networking, encryption, and IoT edge systems.">
+  <title>Aadithya Venkatanarayanan | Software Engineer</title>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      root.dataset.theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      root.dataset.appearanceSource = "system";
+      try {
+        const saved = localStorage.getItem("profile_appearance");
+        if (saved === "dark" || saved === "light") {
+          root.dataset.theme = saved;
+          root.dataset.appearanceSource = "saved";
+        }
+      } catch {}
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
   <style>
     :root {
       color-scheme: light;
-      --bg: #f7f9fa;
-      --surface: #edf1f3;
-      --surface-hover: #e2e8eb;
-      --text: #202628;
-      --text-secondary: #48565c;
-      --text-muted: #596970;
-      --line: #ccd6db;
-      --line-strong: #202628;
-      --accent: #006b50;
-      --accent-soft: rgba(0, 107, 80, 0.08);
-      --status: #326a9d;
-      --toolbar: rgba(247, 249, 250, 0.9);
-      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --font-serif: "Instrument Serif", Georgia, serif;
-      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      --paper: #ffffff;
+      --ink: #252b2b;
+      --secondary: #586160;
+      --accent: #28665f;
+      --line: #dce3e1;
+      --wash: #f5f8f7;
     }
-
     [data-theme="dark"] {
       color-scheme: dark;
-      --bg: #121617;
-      --surface: #1b2224;
-      --surface-hover: #252e31;
-      --text: #f0f5f6;
-      --text-secondary: #bdcbd0;
-      --text-muted: #9baeb5;
-      --line: #39484e;
-      --line-strong: #dce7eb;
-      --accent: #6ee7b7;
-      --accent-soft: rgba(110, 231, 183, 0.1);
-      --status: #86b9ed;
-      --toolbar: rgba(18, 22, 23, 0.92);
+      --paper: #181b1b;
+      --ink: #edf1ef;
+      --secondary: #b1bcb8;
+      --accent: #8bc8ba;
+      --line: #394440;
+      --wash: #1d2321;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      letter-spacing: 0 !important;
-    }
-
+    * { box-sizing: border-box; margin: 0; letter-spacing: 0; }
     body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: var(--font-sans);
-      font-size: 15px;
-      line-height: 1.6;
+      background: linear-gradient(90deg, var(--wash), var(--paper) 65%);
+      color: var(--ink);
+      font: 400 15px/1.7 "DM Sans", sans-serif;
       -webkit-font-smoothing: antialiased;
     }
-
-    .no-transitions,
-    .no-transitions *,
-    .no-transitions *::before,
-    .no-transitions *::after {
-      transition: none !important;
-    }
-
-    a,
-    button {
-      color: inherit;
-      text-decoration: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    /* Architectural Blueprint Frame */
-    .sheet {
-      max-width: 960px;
-      margin: 0 auto 4.5rem;
-      padding: 0 24px;
-    }
-
-    /* Top Spec Bar */
-    .spec-bar {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      margin-inline: -24px;
-      padding-inline: 24px;
-      background: var(--toolbar);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      backdrop-filter: blur(20px) saturate(180%);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding-block: 14px;
-      border-bottom: 1px solid transparent;
-      font-family: var(--font-sans);
-      font-size: 0.8125rem;
-      letter-spacing: 0.06em;
-      text-transform: none;
-      color: var(--text-secondary);
-    }
-
-    .spec-id {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text);
-      font-weight: 500;
-    }
-
-    .live-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--status);
-      display: inline-block;
-    }
-
-    .spec-actions {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .spec-nav {
-      display: flex;
-      gap: 16px;
-    }
-
-    .spec-nav a {
-      display: inline-flex;
-      align-items: center;
-      min-height: 44px;
-    }
-
-    .theme-btn {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      position: relative;
-      width: 44px;
-      height: 44px;
-      flex-shrink: 0;
-      background: transparent;
-      color: var(--text);
-      border: 1px solid transparent;
-      padding: 0;
-      border-radius: 8px;
-      cursor: pointer;
-      transition-property: border-color, background-color, scale;
-      transition-duration: 150ms;
-      transition-timing-function: ease-out;
-    }
-
-    .theme-btn::before {
-      content: "";
-      position: absolute;
-      inset: 9px 0;
-      border-radius: 16px;
-      background: var(--text-muted);
-    }
-
-    .theme-btn::after {
-      content: "";
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      top: 12px;
-      left: 3px;
-      border-radius: 50%;
-      background: #ffffff;
-    }
-
-    .theme-btn[aria-checked="true"]::before {
-      background: var(--accent);
-    }
-
-    .theme-btn[aria-checked="true"]::after {
-      left: 19px;
-    }
-
-    #themeLabel {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
-    }
-
-    /* Hero Section */
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 40px;
-      padding: 3rem 0;
-      border-bottom: 1px solid var(--line);
-      align-items: end;
-    }
-
-    .eyebrow {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .hero h1 {
-      font-family: var(--font-serif);
-      font-weight: 400;
-      font-size: 4rem;
-      font-optical-sizing: auto;
-      overflow-wrap: anywhere;
-      line-height: 1.02;
-      letter-spacing: -0.02em;
-      margin-bottom: 20px;
-    }
-
-    .hero h1 em {
-      font-style: italic;
-      color: var(--accent);
-    }
-
-    .lead {
-      font-size: 17px;
-      line-height: 1.65;
-      color: var(--text-secondary);
-      max-width: 58ch;
-      margin-bottom: 28px;
-    }
-
-    .lead strong {
-      color: var(--text);
-      font-weight: 500;
-    }
-
-    .action-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn-primary {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 500;
-      padding: 9px 14px 9px 16px;
-      background: var(--accent);
-      color: var(--bg);
-      border-radius: 8px;
-      min-height: 44px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition-property: opacity, scale;
-      transition-duration: 150ms;
-      transition-timing-function: ease-out;
-    }
-
-    .btn-ghost {
-      display: inline-flex;
-      align-items: center;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      padding: 8px 12px 8px 14px;
-      border: 1px solid transparent;
-      border-radius: 8px;
-      min-height: 44px;
-      color: var(--text-secondary);
-      transition-property: border-color, color, background-color, scale;
-      transition-duration: 150ms;
-      transition-timing-function: ease-out;
-    }
-
-    .btn-ghost[href^="mailto:"] {
-      padding-inline: 14px;
-    }
-
-    :is(.theme-btn, .btn-primary, .btn-ghost, .filter-chip):not(:disabled):active {
-      opacity: 0.8;
-    }
-
-    :is(.theme-btn, .btn-primary, .btn-ghost, .filter-chip):disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    a:focus-visible,
-    button:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 4px;
-    }
-
-    /* Spec Summary Block */
-    .spec-box {
-      border-left: 1px solid var(--line);
-      padding-left: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-    }
-
-    .spec-item-label {
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      font-size: 10px;
-      margin-bottom: 2px;
-    }
-
-    .spec-item-val {
-      color: var(--text);
-      font-weight: 500;
-    }
-
-    /* Interactive Domain Filter Strip */
-    .filter-bar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 16px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .filter-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-muted);
-    }
-
-    .filter-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      padding: 4px;
-      background: var(--surface);
-      border-radius: 8px;
-    }
-
-    .filter-chip {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 500;
-      padding: 5px 11px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--text-secondary);
-      cursor: pointer;
-      border-radius: 3px;
-      transition-property: background-color, opacity, scale;
-      transition-duration: 150ms;
-      transition-timing-function: ease-out;
-    }
-
-    .filter-chip.active {
-      background: var(--bg);
-      border-color: var(--accent);
-      color: var(--accent);
-      font-weight: 500;
-    }
-
-    .fluid-strip {
-      position: relative;
-      isolation: isolate;
-      --highlight-travel: 160ms;
-      --highlight-fade: 80ms;
-    }
-
-    .fluid-highlight {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      pointer-events: none;
-      border-radius: 3px;
-      background: var(--surface-hover);
-      opacity: 0;
-      transition: opacity var(--highlight-fade) ease-out;
-    }
-
-    .filter-pills .fluid-highlight {
-      background: var(--bg);
-    }
-
-    .fluid-strip .filter-chip.active {
-      background: transparent;
-    }
-
+    a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 5px; }
+    a:focus-visible, summary:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+    .skip { position: fixed; left: 16px; top: -100px; z-index: 5; background: var(--paper); padding: 12px; }
+    .skip:focus { top: 16px; }
+    .layout { max-width: 1160px; padding: 56px 40px 32px; margin: auto; display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 80px; }
+    .profile { position: sticky; top: 48px; align-self: start; }
+    h1 { font: 400 36px/1.1 "Instrument Serif", Georgia, serif; overflow-wrap: anywhere; }
+    h1 span { display: block; }
+    .role { margin-top: 22px; font-weight: 500; }
+    .location { color: var(--secondary); font-size: 13px; margin-top: 2px; }
+    .intro { margin-top: 24px; max-width: 32ch; color: var(--secondary); }
+    .contact { margin-top: 22px; }
+    .contact > a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; overflow-wrap: anywhere; }
+    .social { display: flex; flex-wrap: wrap; gap: 20px; }
+    .social a { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; }
+    nav { display: grid; gap: 2px; margin-top: 30px; border-left: 1px solid var(--line); }
+    nav a { display: flex; align-items: center; min-height: 36px; padding-left: 16px; text-decoration: none; color: var(--secondary); font-size: 13px; border-left: 2px solid transparent; margin-left: -1px; }
+    nav a[aria-current="location"] { border-left-color: var(--accent); color: var(--accent); }
+    .profile-controls { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 20px; margin-top: 24px; }
+    .appearance-control { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; font-size: 12px; color: var(--secondary); }
+    .appearance-control input { appearance: none; position: relative; width: 36px; height: 22px; border: 1px solid var(--secondary); border-radius: 12px; background: var(--secondary); cursor: pointer; flex-shrink: 0; }
+    .appearance-control input::after { content: ""; position: absolute; width: 16px; height: 16px; top: 2px; left: 2px; border-radius: 50%; background: var(--paper); }
+    .appearance-control input:checked { background: var(--accent); border-color: var(--accent); }
+    .appearance-control input:checked::after { left: 16px; }
+    .appearance-control:active { opacity: 0.8; }
+    main { min-width: 0; }
+    section { scroll-margin-top: 36px; padding-bottom: 44px; }
+    section + section { border-top: 1px solid var(--line); padding-top: 32px; }
+    h2 { font: 400 28px/1.2 "Instrument Serif", Georgia, serif; margin-bottom: 26px; }
+    h3 { font-size: 16px; line-height: 1.4; font-weight: 600; }
+    article + article { margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--line); }
+    .job-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .job-head > div { min-width: 0; }
+    .logo-slot { width: 64px; height: 48px; display: flex; align-items: center; justify-content: center; flex: 0 0 64px; }
+    .company-logo { display: block; width: 40px; height: 40px; object-fit: contain; }
+    .company-logo--wide { width: 64px; height: 40px; }
+    [data-theme="dark"] .logo-slot { background: #f5f8f7; border-radius: 4px; }
+    [data-theme="dark"] .company-logo { max-width: 56px; }
+    .job-role { color: var(--secondary); font-size: 14px; }
+    .meta { color: var(--secondary); font-size: 12px; margin-top: 6px; font-variant-numeric: tabular-nums; }
+    .highlights { padding-left: 18px; color: var(--secondary); font-size: 14px; }
+    .highlights li { padding-left: 3px; }
+    .highlights li + li { margin-top: 12px; }
+    .highlights li::marker { color: var(--accent); }
+    strong { font-weight: 500; color: var(--ink); }
+    details { margin-top: 12px; font-size: 13px; }
+    summary { cursor: pointer; color: var(--accent); min-height: 44px; align-content: center; width: fit-content; }
+    details[open] summary { margin-bottom: 8px; }
+    details[open] .closed-label, details:not([open]) .open-label { display: none; }
+    .project p, .publication p { color: var(--secondary); font-size: 14px; margin-top: 12px; }
+    .project .meta { font-size: 12px; }
+    .project h3 a { color: var(--ink); }
+    .education p { color: var(--secondary); font-size: 14px; margin-top: 6px; }
+    .education details p { margin-top: 0; }
+    .skills { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 14px 20px; font-size: 13px; }
+    .skills dt { font-weight: 500; }
+    .skills dd { color: var(--secondary); }
+    footer { border-top: 1px solid var(--line); padding-top: 20px; font-size: 12px; }
+    footer a { display: inline-flex; align-items: center; min-height: 44px; }
     @media (hover: hover) {
-      .fluid-strip .filter-chip:not(.active):not(:disabled):hover {
-        background: transparent;
-      }
+      a:hover, summary:hover { color: var(--ink); }
+      nav a:hover { background: var(--wash); }
     }
-
-    @media (prefers-reduced-motion: no-preference) {
-      .fluid-highlight[data-ready] {
-        transition: transform var(--highlight-travel) cubic-bezier(0.2, 0, 0, 1), opacity var(--highlight-fade) ease-out;
-      }
+    @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+    @media (max-width: 960px) {
+      .layout { grid-template-columns: 300px minmax(0, 1fr); gap: 40px; padding-inline: 28px; }
+      h1 { font-size: 32px; }
     }
-
-    /* Section Grid Layout */
-    .section-block {
-      scroll-margin-top: 7rem;
-      display: grid;
-      grid-template-columns: 190px 1fr;
-      gap: 32px;
-      padding: 40px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .section-meta {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      padding-top: 4px;
-    }
-
-    .section-meta .index-num {
-      color: var(--accent);
-      display: block;
-      margin-bottom: 4px;
-      font-weight: 500;
-    }
-
-    .section-meta .sub-note {
-      display: block;
-      margin-top: 8px;
-      font-size: 10px;
-      line-height: 1.5;
-      text-transform: none;
-      letter-spacing: 0;
-    }
-
-    /* Experience Ledger */
-    .ledger {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .ledger-row {
-      display: grid;
-      grid-template-columns: 155px 1fr;
-      gap: 24px;
-      padding: 20px 14px;
-      border-top: 1px solid var(--line);
-      transition-property: background-color, opacity;
-      transition-duration: 150ms;
-      transition-timing-function: ease-out;
-    }
-
-    .ledger-row:first-child {
-      border-top: none;
-      padding-top: 4px;
-    }
-
-    .ledger-period {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-muted);
-      padding-top: 3px;
-    }
-
-    .ledger-loc {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-secondary);
-      margin-top: 4px;
-    }
-
-    .ledger-head {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 6px;
-    }
-
-    .ledger-role {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .ledger-org {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--accent);
-    }
-
-    .ledger-desc {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    .resume-highlights {
-      padding-left: 18px;
-    }
-
-    .resume-highlights li + li {
-      margin-top: 10px;
-    }
-
-    .resume-details {
-      display: grid;
-      gap: 20px;
-      min-width: 0;
-    }
-
-    .skills-list {
-      display: grid;
-      grid-template-columns: 100px minmax(0, 1fr);
-      gap: 16px;
-      font-size: 14px;
-    }
-
-    .skills-list dt {
-      font-weight: 600;
-    }
-
-    .skills-list dd {
-      color: var(--text-secondary);
-    }
-
-    /* Projects Architectural Matrix */
-    .project-matrix {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
-
-    .matrix-cell {
-      border: 1px solid transparent;
-      border-radius: 8px;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 20px;
-      background: var(--surface);
-      transition-property: background-color, opacity;
-      transition-duration: 150ms;
-      transition-timing-function: ease-out;
-    }
-
-    .cell-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-    }
-
-    .cell-domain {
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .cell-title {
-      font-size: 17px;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .cell-arrow {
-      font-family: var(--font-mono);
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-
-    .cell-desc {
-      font-size: 13.5px;
-      color: var(--text-secondary);
-      line-height: 1.55;
-    }
-
-    .cell-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-    }
-
-    .cell-tag {
-      padding: 2px 7px;
-      border: 1px solid var(--line);
-      color: var(--text-secondary);
-      border-radius: 2px;
-    }
-
-    /* Dimmed state when filtering */
-    .is-dimmed {
-      opacity: 0.22;
-      pointer-events: none;
-    }
-
-    /* Education & Credentials Row */
-    .credentials-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-    }
-
-    .cred-card {
-      padding: 0;
-    }
-
-    .cred-degree {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .cred-school {
-      font-size: 13.5px;
-      color: var(--text-secondary);
-      margin-bottom: 8px;
-    }
-
-    .cred-meta {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    /* Footer Colophon */
-    .colophon {
-      padding: 22px 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    /* Hover effects only on hover-capable pointers */
-    @media (hover: hover) {
-      .spec-nav a:hover {
-        color: var(--accent);
-      }
-      .theme-btn:not(:disabled):hover {
-        border-color: var(--text);
-        background: var(--surface);
-      }
-      .btn-primary:hover {
-        opacity: 0.88;
-      }
-      .btn-ghost:hover {
-        border-color: var(--text);
-        color: var(--text);
-        background: var(--surface);
-      }
-      .filter-chip:not(.active):not(:disabled):hover {
-        border-color: var(--text);
-        color: var(--text);
-      }
-      .ledger-row:hover {
-        background: var(--surface);
-      }
-      a.matrix-cell:hover {
-        background: var(--surface-hover);
-      }
-      a.matrix-cell:hover .cell-arrow {
-        color: var(--accent);
-      }
-      .colophon a:hover {
-        color: var(--text);
-      }
-    }
-
-    /* Motion gated behind prefers-reduced-motion: no-preference */
-    @media (prefers-reduced-motion: no-preference) {
-      html {
-        scroll-behavior: smooth;
-      }
-
-      .theme-btn:not(:disabled):not([data-static]):active,
-      .btn-primary:not(:disabled):not([data-static]):active,
-      .btn-ghost:not(:disabled):not([data-static]):active,
-      .filter-chip:not(:disabled):not([data-static]):active {
-        scale: 0.96;
-      }
-    }
-
     @media (max-width: 760px) {
-      .sheet {
-        margin: 0 auto 40px;
-        padding: 0 16px;
-      }
-      .spec-bar {
-        margin-inline: -16px;
-        padding-inline: 16px;
-        flex-wrap: wrap;
-        gap: 0;
-      }
-      .spec-id {
-        width: 100%;
-      }
-      .spec-actions {
-        width: 100%;
-        justify-content: space-between;
-      }
-      .spec-nav {
-        gap: 12px;
-      }
-      .hero h1 {
-        font-size: 2.25rem;
-      }
-      .hero {
-        grid-template-columns: 1fr;
-        gap: 24px;
-        padding: 32px 0;
-      }
-      .spec-box {
-        border-left: none;
-        border-top: 1px solid var(--line);
-        padding-left: 0;
-        padding-top: 16px;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .section-block {
-        grid-template-columns: 1fr;
-        gap: 16px;
-        padding: 28px 0;
-      }
-      .ledger-row {
-        grid-template-columns: 1fr;
-        gap: 6px;
-        padding: 16px 8px;
-      }
-      .project-matrix,
-      .credentials-grid {
-        grid-template-columns: 1fr;
-      }
+      body { background: var(--paper); }
+      .layout { display: block; padding: 32px 22px; }
+      .profile { position: static; border-bottom: 1px solid var(--line); padding-bottom: 28px; margin-bottom: 32px; }
+      h1 { font-size: 32px; }
+      .intro { max-width: 46ch; margin-top: 16px; }
+      .role { margin-top: 16px; }
+      .contact { margin-top: 12px; }
+      nav { display: flex; flex-wrap: wrap; gap: 0 20px; border-left: none; margin-top: 18px; }
+      nav a { min-height: 44px; padding: 0; margin: 0; border-left: none; border-bottom: 2px solid transparent; }
+      nav a[aria-current="location"] { border-bottom-color: var(--accent); }
+      .profile-controls { margin-top: 12px; }
+      section { scroll-margin-top: 20px; }
     }
-
-    @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
-      .spec-bar {
-        background: var(--bg);
-        -webkit-backdrop-filter: none;
-        backdrop-filter: none;
-        border-bottom-color: var(--text);
-      }
-    }
-
+    @media (min-width: 761px) and (max-height: 740px) { .profile { position: static; } }
+    @media (max-width: 360px) { h1 { font-size: 29px; } }
     @media (forced-colors: active) {
-      .theme-btn::before {
-        border: 1px solid ButtonText;
-        background: Canvas;
-      }
-      .theme-btn::after {
-        background: ButtonText;
-      }
+      nav a[aria-current="location"] { border-color: Highlight; }
+      .appearance-control input { background: Canvas; border-color: ButtonText; }
+      .appearance-control input::after { background: ButtonText; }
+      .appearance-control input:checked { background: Highlight; border-color: Highlight; }
+      .appearance-control input:checked::after { background: HighlightText; }
+    }
+    @media print {
+      :root { color-scheme: light; --paper: #ffffff; --ink: #252b2b; --secondary: #586160; --accent: #28665f; --line: #dce3e1; --wash: #f5f8f7; }
+      body { background: white; }
+      .layout { display: block; padding: 0; }
+      .profile { position: static; margin-bottom: 24px; }
+      nav, .profile-controls, footer, summary { display: none; }
+      details::details-content { content-visibility: visible; }
     }
   </style>
 </head>
-<body>
-
-  <div class="sheet">
-    <!-- Top Spec Header -->
-    <header class="spec-bar">
-      <div class="spec-id">
-        <span class="live-dot" aria-hidden="true"></span>
-        <span>Aadithya Venkat</span>
+<body id="top">
+  <a class="skip" href="#experience">Skip to experience</a>
+  <div class="layout">
+    <header class="profile">
+      <h1>Aadithya <span>Venkatanarayanan</span></h1>
+      <p class="role">Software Engineer 2 at Microsoft</p>
+      <p class="location">Vancouver, British Columbia</p>
+      <p class="intro">I build reliable, encrypted cloud networking at Azure. Previously, I worked on IoT edge systems at Cisco.</p>
+      <div class="contact">
+        <a href="mailto:aadithyavenkat@gmail.com">aadithyavenkat@gmail.com</a>
+        <div class="social">
+          <a href="downloads/Aadithya_Venkat_Software_Resume.pdf" download>Resume (PDF)</a>
+          <a href="https://github.com/AadithyaVenkat" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/aadithyav/" target="_blank" rel="noreferrer">LinkedIn</a>
+        </div>
       </div>
-      <div class="spec-actions">
-        <nav class="spec-nav" aria-label="Section navigation">
-          <a href="#experience">Experience</a>
-          <a href="#projects">Projects</a>
-          <a href="#education">Education</a>
-        </nav>
-        <button class="theme-btn" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Dark appearance" title="Dark appearance">
-          <span id="themeLabel">Dark appearance</span>
-        </button>
+      <nav aria-label="Sections">
+        <a href="#experience" aria-current="location">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#education">Education</a>
+        <a href="#skills">Skills</a>
+        <a href="#research">Research</a>
+      </nav>
+      <div class="profile-controls">
+        <label class="appearance-control">
+          <span>Dark mode</span>
+          <input id="appearanceToggle" type="checkbox" role="switch">
+        </label>
       </div>
     </header>
 
     <main>
-      <!-- Hero -->
-      <section class="hero" aria-label="Introduction">
-        <div>
-          <div class="eyebrow">Software Engineer 2 · Microsoft · Vancouver, BC</div>
-          <h1>Aadithya<br><em>Venkatanarayanan</em></h1>
-          <p class="lead">
-            I build <strong>reliable, encrypted cloud networking</strong> at Microsoft Azure, from VNET Encryption and live migration to fleet-wide reliability. Previously at Cisco, working on IoT edge systems. M.S. in Electrical &amp; Computer Engineering, UCLA.
-          </p>
-          <div class="action-row">
-            <a class="btn-primary" href="downloads/Aadithya_Venkat_Software_Resume.pdf" download>
-              <span>Download Resume (PDF)</span>
-              <span>↓</span>
-            </a>
-            <a class="btn-ghost" href="https://github.com/AadithyaVenkat" target="_blank" rel="noreferrer">GitHub ↗</a>
-            <a class="btn-ghost" href="https://www.linkedin.com/in/aadithyav" target="_blank" rel="noreferrer">LinkedIn ↗</a>
-            <a class="btn-ghost" href="mailto:aadithyavenkat@gmail.com">aadithyavenkat@gmail.com</a>
+      <section id="experience" aria-labelledby="experience-title">
+        <h2 id="experience-title">Experience</h2>
+        <article>
+          <div class="job-head">
+            <span class="logo-slot"><img class="company-logo" src="https://www.google.com/s2/favicons?domain=microsoft.com&amp;sz=128" width="40" height="40" alt=""></span>
+            <div>
+              <h3>Microsoft Corporation</h3>
+              <p class="job-role">Software Engineer 2</p>
+              <p class="meta">Sep 2021 - Present &middot; Vancouver, BC</p>
+            </div>
           </div>
-        </div>
-
-      </section>
-
-      <!-- Interactive Domain Filter -->
-      <div class="filter-bar" role="region" aria-label="Filter portfolio by engineering domain">
-        <span class="filter-label">Focus</span>
-        <div class="filter-pills">
-          <button class="filter-chip active" type="button" data-filter="all">All Work (4)</button>
-          <button class="filter-chip" type="button" data-filter="cloud">Cloud &amp; Edge</button>
-          <button class="filter-chip" type="button" data-filter="iot">IoT &amp; Embedded</button>
-          <button class="filter-chip" type="button" data-filter="ml">Machine Learning</button>
-        </div>
-      </div>
-
-      <!-- 01 / Experience -->
-      <section class="section-block" id="experience">
-        <div class="section-meta">
-          <span class="index-num">01 // EXPERIENCE</span>
-          <span>Career Ledger</span>
-          <span class="sub-note">2019 — Present<br>Cloud networking &amp; IoT edge systems</span>
-        </div>
-
-        <div class="ledger">
-          <article class="ledger-row" data-domain="cloud">
+          <ul class="highlights">
+            <li>Owned VNET Encryption restoration during datapath servicing, enabling <strong>sub-second servicing across millions of Azure hosts</strong>.</li>
+            <li>Shipped live migration for encrypted virtual machines across multiple network topologies, preserving encryption continuity and availability SLAs.</li>
+          </ul>
+          <details>
+            <summary><span class="closed-label">More at Microsoft</span><span class="open-label">Less at Microsoft</span></summary>
+            <ul class="highlights">
+              <li>Led automated test infrastructure and end-to-end validation for servicing, migration, and failure scenarios. Owned safe feature rollouts across Azure host fleets.</li>
+              <li>Drove root-cause analysis and permanent fixes for outages, memory leaks, and object corruption, including incidents affecting S500 customers. Partnered across teams on DNS, dataplane/control-plane, and driver-version issues.</li>
+              <li>Built automated fleet mitigations for failures such as counter underflows, and mentored engineers in debugging, validation, and rollout practices.</li>
+            </ul>
+          </details>
+        </article>
+        <article>
+          <div class="job-head">
+            <span class="logo-slot"><img class="company-logo company-logo--wide" src="https://upload.wikimedia.org/wikipedia/commons/6/64/Cisco_logo.svg" width="64" height="40" alt=""></span>
             <div>
-              <div class="ledger-period">SEP 2021 — PRESENT</div>
-              <div class="ledger-loc">Vancouver, BC</div>
+              <h3>Cisco Systems</h3>
+              <p class="job-role">Software Engineer</p>
+              <p class="meta">Feb 2019 - Sep 2021 &middot; Milpitas, CA</p>
             </div>
-            <div>
-              <div class="ledger-head">
-                <h2 class="ledger-role">Software Engineer 2</h2>
-                <span class="ledger-org">Microsoft Corporation</span>
-              </div>
-              <ul class="ledger-desc resume-highlights">
-                <li>Owned VNET Encryption restoration during datapath servicing, integrating cross-platform APIs for sub-second servicing across millions of Azure hosts.</li>
-                <li>Shipped live migration support for VNET-encrypted virtual machines across multiple network topologies, preserving encryption continuity and availability SLAs.</li>
-                <li>Led automated test infrastructure and end-to-end validation for servicing, migration, and failure scenarios; owned safe feature rollouts across Azure host fleets.</li>
-                <li>Drove root-cause analysis and permanent fixes for production outages, memory leaks, and object corruption. Partnered across teams to resolve DNS, dataplane/control-plane, and driver-version issues, including incidents affecting S500 customers.</li>
-                <li>Built automated fleet mitigations for critical failures such as counter underflows, and mentored engineers in debugging, validation, and rollout practices.</li>
-              </ul>
-            </div>
-          </article>
-
-          <article class="ledger-row" data-domain="iot">
-            <div>
-              <div class="ledger-period">FEB 2019 — SEP 2021</div>
-              <div class="ledger-loc">Milpitas, CA</div>
-            </div>
-            <div>
-              <div class="ledger-head">
-                <h2 class="ledger-role">Software Engineer</h2>
-                <span class="ledger-org">Cisco Systems</span>
-              </div>
-              <ul class="ledger-desc resume-highlights">
-                <li>Developed and maintained C++, Python, and Shell back-end APIs for the Cisco IC3000 IoT Edge Compute module, covering authentication, networking, and server configuration.</li>
-                <li>Improved reset, reboot, user, image, and IP-address management; resolved field issues to improve software reliability.</li>
-                <li>Built automatic SFP detection and configuration with tri-speed auto-negotiation, LED support, and CLI-based vendor information.</li>
-              </ul>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- 02 / Selected Systems & Projects -->
-      <section class="section-block" id="projects">
-        <div class="section-meta">
-          <span class="index-num">02 // SYSTEMS</span>
-          <span>Selected Builds</span>
-          <span class="sub-note">Hardware-to-cloud prototypes &amp; research</span>
-        </div>
-
-        <div class="project-matrix">
-          <article class="matrix-cell" data-domain="cloud iot">
-            <div>
-              <div class="cell-top">
-                <span>WINTER 2017</span>
-                <span class="cell-domain">Cloud &amp; IoT</span>
-              </div>
-              <h3 class="cell-title">
-                <span>Smart System-Aided Bike</span>
-              </h3>
-              <p class="cell-desc">
-                An IoT-enabled bike with theft prevention and air-quality monitoring built on Arduino/ESP8266. Integrated cloud data transfer and an Android app with pollution mapping, authentication, and chat through Firebase.
-              </p>
-            </div>
-            <div class="cell-tags">
-              <span class="cell-tag">C++</span>
-              <span class="cell-tag">Java</span>
-              <span class="cell-tag">ESP8266</span>
-              <span class="cell-tag">Firebase</span>
-            </div>
-          </article>
-
-          <a class="matrix-cell" data-domain="ml" href="https://github.com/AadithyaVenkat/DataMining-UCLAECE219/tree/master/Project3" target="_blank" rel="noreferrer">
-            <div>
-              <div class="cell-top">
-                <span>WINTER 2018</span>
-                <span class="cell-domain">ML &amp; Data Mining</span>
-              </div>
-              <h3 class="cell-title">
-                <span>Collaborative Movie Recommender</span>
-                <span class="cell-arrow">↗</span>
-              </h3>
-              <p class="cell-desc">
-                Collaborative filtering with k-NN and non-negative matrix factorization (NNMF), evaluated using ROC, area under the curve, RMSE, and precision-recall curves.
-              </p>
-            </div>
-            <div class="cell-tags">
-              <span class="cell-tag">Matrix Factorization</span>
-              <span class="cell-tag">k-NN</span>
-              <span class="cell-tag">Python</span>
-            </div>
-          </a>
-
-        </div>
-      </section>
-
-      <!-- 03 / Education -->
-      <section class="section-block" id="education">
-        <div class="section-meta">
-          <span class="index-num">03 // EDUCATION</span>
-          <span>Academic</span>
-        </div>
-
-        <div class="resume-details">
-          <div class="cred-card">
-            <div class="cred-degree">M.S. in Electrical &amp; Computer Engineering</div>
-            <div class="cred-school">University of California, Los Angeles (UCLA)</div>
-            <div class="cred-meta">December 2018 · CGPA: 3.83/4.0</div>
           </div>
+          <ul class="highlights">
+            <li>Developed back-end APIs for the <strong>IC3000 IoT Edge Compute module</strong>, covering authentication, networking, and server configuration in C++, Python, and Shell.</li>
+            <li>Built automatic SFP detection and configuration, including tri-speed auto-negotiation, LED support, and CLI vendor information.</li>
+          </ul>
+          <details>
+            <summary><span class="closed-label">More at Cisco</span><span class="open-label">Less at Cisco</span></summary>
+            <ul class="highlights"><li>Improved reset, reboot, user, image, and IP-address management, and resolved field issues to improve software reliability.</li></ul>
+          </details>
+        </article>
+        <article>
+          <div class="job-head">
+            <span class="logo-slot"><img class="company-logo" src="https://www.google.com/s2/favicons?domain=midmark.com&amp;sz=128" width="40" height="40" alt=""></span>
+            <div>
+              <h3>Midmark Corporation</h3>
+              <p class="job-role">Applied &amp; Research Technologies Intern</p>
+              <p class="meta">Jun 2018 - Sep 2018 &middot; Versailles, OH</p>
+            </div>
+          </div>
+          <ul class="highlights">
+            <li>Built a C# Windows BLE telemetry tool and modeled real-time locating system distance-vs-RSSI accuracy in Python.</li>
+          </ul>
+        </article>
+        <article>
+          <div class="job-head">
+            <span class="logo-slot"><img class="company-logo company-logo--wide" src="https://www.ssn.edu.in/wp-content/uploads/2024/12/snn-logo.svg" width="64" height="40" alt=""></span>
+            <div>
+              <h3>SSN Wireless Lab</h3>
+              <p class="job-role">Software Research Intern</p>
+              <p class="meta">Dec 2016 - Jul 2017 &middot; Chennai, India</p>
+            </div>
+          </div>
+          <ul class="highlights">
+            <li>Developed smart-bicycle IoT nodes with Arduino/ESP8266, environmental sensors, GPS/GSM anti-theft alerts, and a companion Android app.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section id="projects" aria-labelledby="projects-title">
+        <h2 id="projects-title">Projects</h2>
+        <article class="project">
+          <h3>Smart System-Aided Bike</h3>
+          <p class="meta">Winter 2017 &middot; C++, Java, ESP8266, Firebase</p>
+          <p>An IoT-enabled bike with theft prevention and air-quality monitoring using Arduino/ESP8266. A companion Android app brings together pollution mapping, authentication, and chat through Firebase.</p>
+        </article>
+        <article class="project">
+          <h3><a href="https://github.com/AadithyaVenkat/DataMining-UCLAECE219/tree/master/Project3" target="_blank" rel="noreferrer">Collaborative Movie Recommender</a></h3>
+          <p class="meta">Winter 2018 &middot; Python, k-NN, NNMF</p>
+          <p>Collaborative filtering with k-nearest neighbors and non-negative matrix factorization, evaluated with ROC, area under the curve, RMSE, and precision-recall curves.</p>
+        </article>
+      </section>
+
+      <section id="education" class="education" aria-labelledby="education-title">
+        <h2 id="education-title">Education</h2>
+        <div class="job-head">
+          <span class="logo-slot"><img class="company-logo" src="https://www.google.com/s2/favicons?domain=ucla.edu&amp;sz=128" width="40" height="40" alt=""></span>
           <div>
-            <h3 class="cred-degree">Selected coursework</h3>
-            <p class="ledger-desc">Large Scale Data Mining; Advanced Computer Networks; Networked Embedded Systems; Human Computer Interaction; Security in Embedded Systems; Network Protocols &amp; Software Design for Wireless &amp; Mobile Systems; Machine Learning.</p>
+            <h3>University of California, Los Angeles</h3>
+            <p>M.S. in Electrical &amp; Computer Engineering</p>
+            <p class="meta">December 2018 &middot; CGPA: 3.83/4.0</p>
           </div>
         </div>
+        <details>
+          <summary>Selected coursework</summary>
+          <p>Large Scale Data Mining; Advanced Computer Networks; Networked Embedded Systems; Human Computer Interaction; Security in Embedded Systems; Network Protocols &amp; Software Design for Wireless &amp; Mobile Systems; Machine Learning.</p>
+        </details>
       </section>
 
-      <section class="section-block" id="skills" aria-label="Technical skills">
-        <div class="section-meta">
-          <span class="index-num">04 // SKILLS</span>
-          <span>Technical Toolkit</span>
-        </div>
-        <dl class="skills-list">
-          <dt>Languages</dt>
-          <dd>C, C++, Python, C#, Shell, PowerShell</dd>
-          <dt>Platforms</dt>
-          <dd>Linux, Yocto, Azure DevOps, Git</dd>
-          <dt>Tools</dt>
-          <dd>Scikit-learn, NumPy, Pandas, KustoQL, VS Code, Copilot</dd>
-          <dt>Cloud</dt>
-          <dd>Microsoft Azure, Google Firebase</dd>
+      <section id="skills" aria-labelledby="skills-title">
+        <h2 id="skills-title">Skills</h2>
+        <dl class="skills">
+          <dt>Languages</dt><dd>C, C++, Python, C#, Shell, PowerShell</dd>
+          <dt>Platforms</dt><dd>Linux, Yocto, Azure DevOps, Git</dd>
+          <dt>Tools</dt><dd>Scikit-learn, NumPy, Pandas, KustoQL, VS Code, Copilot</dd>
+          <dt>Cloud</dt><dd>Microsoft Azure, Google Firebase</dd>
         </dl>
       </section>
 
-      <section class="section-block" id="publication" aria-label="Publication">
-        <div class="section-meta">
-          <span class="index-num">05 // PUBLICATION</span>
-          <span>Research</span>
-        </div>
-        <div>
-          <h2 class="cred-degree">Design of sensor system for air pollution and human vital monitoring for connected cyclists</h2>
-          <p class="cred-school">IET Communications · 2019</p>
-        </div>
+      <section id="research" class="publication" aria-labelledby="research-title">
+        <h2 id="research-title">Research</h2>
+        <h3>Design of sensor system for air pollution and human vital monitoring for connected cyclists</h3>
+        <p>IET Communications &middot; 2019</p>
       </section>
+      <footer><a href="#top">Back to top</a></footer>
     </main>
-
-    <!-- Colophon -->
-    <footer class="colophon">
-      <div>AADITHYA VENKATANARAYANAN · SINGLE-SHEET EDITION</div>
-      <div>
-        <a href="#">↑ Top of sheet</a>
-      </div>
-    </footer>
   </div>
-
   <script>
-    const themeBtn = document.getElementById("themeToggle");
-    const themeLabel = document.getElementById("themeLabel");
-    const stored = localStorage.getItem("dossier_theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    let themeFrame;
-
-    function applyTheme(mode) {
-      cancelAnimationFrame(themeFrame);
-      document.documentElement.classList.add("no-transitions");
-      void document.documentElement.offsetHeight;
+    const appearanceToggle = document.getElementById("appearanceToggle");
+    const systemAppearance = matchMedia("(prefers-color-scheme: dark)");
+    appearanceToggle.checked = document.documentElement.dataset.theme === "dark";
+    appearanceToggle.addEventListener("change", () => {
+      const mode = appearanceToggle.checked ? "dark" : "light";
       document.documentElement.dataset.theme = mode;
-      themeBtn.setAttribute("aria-checked", String(mode === "dark"));
-      void document.documentElement.offsetHeight;
-      themeFrame = requestAnimationFrame(() => {
-        document.documentElement.classList.remove("no-transitions");
-      });
-    }
-
-    applyTheme(stored || (prefersDark ? "dark" : "light"));
-
-    themeBtn.addEventListener("click", () => {
-      const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-      localStorage.setItem("dossier_theme", next);
-      applyTheme(next);
+      document.documentElement.dataset.appearanceSource = "saved";
+      try { localStorage.setItem("profile_appearance", mode); } catch {}
+    });
+    systemAppearance.addEventListener("change", event => {
+      if (document.documentElement.dataset.appearanceSource !== "system") return;
+      document.documentElement.dataset.theme = event.matches ? "dark" : "light";
+      appearanceToggle.checked = event.matches;
     });
 
-    const chips = document.querySelectorAll(".filter-chip");
-    const filterables = document.querySelectorAll("[data-domain]");
-
-    chips.forEach((chip) => {
-      chip.setAttribute("aria-pressed", String(chip.classList.contains("active")));
-      chip.addEventListener("click", () => {
-        const filter = chip.dataset.filter;
-        chips.forEach((option) => {
-          option.classList.toggle("active", option === chip);
-          option.setAttribute("aria-pressed", String(option === chip));
-        });
-        filterables.forEach((item) => {
-          const domains = item.dataset.domain.split(" ");
-          const match = filter === "all" || domains.includes(filter);
-          item.classList.toggle("is-dimmed", !match);
-          item.inert = !match;
-        });
-      });
-    });
-
-    function enableFluidHighlight(strip, selector) {
-      const items = [...strip.querySelectorAll(selector)];
-      const highlight = document.createElement("span");
-      const hoverMedia = matchMedia("(hover: hover)");
-      const motionMedia = matchMedia("(prefers-reduced-motion: reduce)");
-      let hovered = null;
-      let frame;
-      highlight.className = "fluid-highlight";
-      highlight.setAttribute("aria-hidden", "true");
-      strip.classList.add("fluid-strip");
-      strip.prepend(highlight);
-
-      function render(snap = false) {
-        const focused = items.find(item => item === document.activeElement);
-        const selected = items.find(item => item.getAttribute("aria-pressed") === "true");
-        const target = hovered || focused || selected;
-        cancelAnimationFrame(frame);
-        if (!target || target.disabled) {
-          highlight.style.opacity = "0";
-          highlight.removeAttribute("data-ready");
-          return;
-        }
-        if (snap || motionMedia.matches) highlight.removeAttribute("data-ready");
-        highlight.style.width = `${target.offsetWidth}px`;
-        highlight.style.height = `${target.offsetHeight}px`;
-        highlight.style.transform = `translate(${target.offsetLeft}px, ${target.offsetTop}px)`;
-        highlight.style.opacity = "1";
-        highlight.dataset.target = target.textContent.trim();
-        if (!highlight.hasAttribute("data-ready")) {
-          void highlight.offsetWidth;
-          frame = requestAnimationFrame(() => highlight.setAttribute("data-ready", ""));
-        }
+    const sections = [...document.querySelectorAll("main section")];
+    const navigation = [...document.querySelectorAll("nav a")];
+    let scrollFrame;
+    function updateNavigation() {
+      let current = sections.filter(section => section.getBoundingClientRect().top <= 160).at(-1) || sections[0];
+      const atBottom = Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight;
+      if (atBottom) {
+        const destination = sections.find(section => `#${section.id}` === window.location.hash);
+        const bounds = destination?.getBoundingClientRect();
+        current = bounds && bounds.top < window.innerHeight && bounds.bottom > 0 ? destination : sections.at(-1);
       }
-
-      strip.addEventListener("pointermove", event => {
-        if (!hoverMedia.matches || event.pointerType === "touch") return;
-        let nearest = null;
-        let shortest = Infinity;
-        for (const item of items) {
-          if (item.disabled) continue;
-          const bounds = item.getBoundingClientRect();
-          const horizontal = Math.max(bounds.left - event.clientX, 0, event.clientX - bounds.right);
-          const vertical = Math.max(bounds.top - event.clientY, 0, event.clientY - bounds.bottom);
-          const distance = horizontal * horizontal + vertical * vertical;
-          if (distance < shortest) {
-            shortest = distance;
-            nearest = item;
-          }
-        }
-        if (nearest !== hovered) {
-          hovered = nearest;
-          render();
-        }
+      navigation.forEach(link => {
+        if (link.hash === `#${current.id}`) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
       });
-      strip.addEventListener("pointerleave", () => {
-        hovered = null;
-        render();
-      });
-      strip.addEventListener("pointercancel", () => {
-        hovered = null;
-        render();
-      });
-      strip.addEventListener("focusin", () => {
-        hovered = null;
-        render();
-      });
-      strip.addEventListener("focusout", () => queueMicrotask(() => render()));
-      strip.addEventListener("click", () => render());
-      hoverMedia.addEventListener("change", () => {
-        hovered = null;
-        render(true);
-      });
-      motionMedia.addEventListener("change", () => render(true));
-      const observer = new ResizeObserver(() => render(true));
-      observer.observe(strip);
-      items.forEach(item => observer.observe(item));
-      render(true);
+      scrollFrame = null;
     }
-
-    enableFluidHighlight(document.querySelector(".spec-nav"), "a");
-    enableFluidHighlight(document.querySelector(".filter-pills"), "button");
+    document.addEventListener("scroll", () => {
+      if (!scrollFrame) scrollFrame = requestAnimationFrame(updateNavigation);
+    }, { passive: true });
+    window.addEventListener("resize", updateNavigation);
+    window.addEventListener("hashchange", updateNavigation);
+    document.querySelectorAll("details").forEach(detail => detail.addEventListener("toggle", updateNavigation));
+    updateNavigation();
   </script>
 </body>
 </html>
