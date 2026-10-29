@@ -5,21 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="yWHyWuPJIEeAp8qV6AdedD3TPvkxP_1Mm1bQ_YAk3ro" />
   <meta name="description" content="Aadithya Venkatanarayanan, Software Engineer 2 at Microsoft in Vancouver. Cloud networking, encryption, and IoT edge systems.">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Aadithya Venkatanarayanan | Software Engineer</title>
-  <script>
-    (() => {
-      const root = document.documentElement;
-      root.dataset.theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-      root.dataset.appearanceSource = "system";
-      try {
-        const saved = localStorage.getItem("profile_appearance");
-        if (saved === "dark" || saved === "light") {
-          root.dataset.theme = saved;
-          root.dataset.appearanceSource = "saved";
-        }
-      } catch {}
-    })();
-  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
@@ -33,7 +20,18 @@
       --line: #dce3e1;
       --wash: #f5f8f7;
     }
-    [data-theme="dark"] {
+    @media (prefers-color-scheme: dark) {
+      :root:not(:has(#appearanceToggle:not(:checked))) {
+        color-scheme: dark;
+        --paper: #181b1b;
+        --ink: #edf1ef;
+        --secondary: #b1bcb8;
+        --accent: #8bc8ba;
+        --line: #394440;
+        --wash: #1d2321;
+      }
+    }
+    :root:has(#appearanceToggle:checked) {
       color-scheme: dark;
       --paper: #181b1b;
       --ink: #edf1ef;
@@ -46,7 +44,7 @@
     body {
       background: linear-gradient(90deg, var(--wash), var(--paper) 65%);
       color: var(--ink);
-      font: 400 15px/1.7 "DM Sans", sans-serif;
+      font: 400 15px/1.7 "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       -webkit-font-smoothing: antialiased;
     }
     a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 5px; }
@@ -66,7 +64,16 @@
     .social a { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; }
     nav { display: grid; gap: 2px; margin-top: 30px; border-left: 1px solid var(--line); }
     nav a { display: flex; align-items: center; min-height: 36px; padding-left: 16px; text-decoration: none; color: var(--secondary); font-size: 13px; border-left: 2px solid transparent; margin-left: -1px; }
-    nav a[aria-current="location"] { border-left-color: var(--accent); color: var(--accent); }
+    nav a:first-child { border-left-color: var(--accent); color: var(--accent); }
+    body:has(:target) nav a:first-child { border-left-color: transparent; color: var(--secondary); }
+    body:has(#experience:target) nav a[href="#experience"],
+    body:has(#projects:target) nav a[href="#projects"],
+    body:has(#education:target) nav a[href="#education"],
+    body:has(#skills:target) nav a[href="#skills"],
+    body:has(#research:target) nav a[href="#research"] {
+      border-left-color: var(--accent);
+      color: var(--accent);
+    }
     .profile-controls { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 20px; margin-top: 24px; }
     .appearance-control { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; font-size: 12px; color: var(--secondary); }
     .appearance-control input { appearance: none; position: relative; width: 36px; height: 22px; border: 1px solid var(--secondary); border-radius: 12px; background: var(--secondary); cursor: pointer; flex-shrink: 0; }
@@ -80,13 +87,27 @@
     h2 { font: 400 28px/1.2 "Instrument Serif", Georgia, serif; margin-bottom: 26px; }
     h3 { font-size: 16px; line-height: 1.4; font-weight: 600; }
     article + article { margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--line); }
-    .job-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .job-head { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
     .job-head > div { min-width: 0; }
-    .logo-slot { width: 64px; height: 48px; display: flex; align-items: center; justify-content: center; flex: 0 0 64px; }
-    .company-logo { display: block; width: 40px; height: 40px; object-fit: contain; }
-    .company-logo--wide { width: 64px; height: 40px; }
-    [data-theme="dark"] .logo-slot { background: #f5f8f7; border-radius: 4px; }
-    [data-theme="dark"] .company-logo { max-width: 56px; }
+    .logo-slot {
+      width: 56px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 56px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--wash);
+      color: var(--ink);
+    }
+    .org-mark { display: block; width: 28px; height: 28px; }
+    .org-mark--wide { width: 44px; height: 24px; }
+    .org-badge {
+      font: 600 11px/1 "DM Sans", sans-serif;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+    }
     .job-role { color: var(--secondary); font-size: 14px; }
     .meta { color: var(--secondary); font-size: 12px; margin-top: 6px; font-variant-numeric: tabular-nums; }
     .highlights { padding-left: 18px; color: var(--secondary); font-size: 14px; }
@@ -127,14 +148,22 @@
       .contact { margin-top: 12px; }
       nav { display: flex; flex-wrap: wrap; gap: 0 20px; border-left: none; margin-top: 18px; }
       nav a { min-height: 44px; padding: 0; margin: 0; border-left: none; border-bottom: 2px solid transparent; }
-      nav a[aria-current="location"] { border-bottom-color: var(--accent); }
+      nav a:first-child { border-bottom-color: var(--accent); }
+      body:has(:target) nav a:first-child { border-bottom-color: transparent; }
+      body:has(#experience:target) nav a[href="#experience"],
+      body:has(#projects:target) nav a[href="#projects"],
+      body:has(#education:target) nav a[href="#education"],
+      body:has(#skills:target) nav a[href="#skills"],
+      body:has(#research:target) nav a[href="#research"] {
+        border-bottom-color: var(--accent);
+      }
       .profile-controls { margin-top: 12px; }
       section { scroll-margin-top: 20px; }
     }
     @media (min-width: 761px) and (max-height: 740px) { .profile { position: static; } }
     @media (max-width: 360px) { h1 { font-size: 29px; } }
     @media (forced-colors: active) {
-      nav a[aria-current="location"] { border-color: Highlight; }
+      nav a:first-child { border-color: Highlight; }
       .appearance-control input { background: Canvas; border-color: ButtonText; }
       .appearance-control input::after { background: ButtonText; }
       .appearance-control input:checked { background: Highlight; border-color: Highlight; }
@@ -167,7 +196,7 @@
         </div>
       </div>
       <nav aria-label="Sections">
-        <a href="#experience" aria-current="location">Experience</a>
+        <a href="#experience">Experience</a>
         <a href="#projects">Projects</a>
         <a href="#education">Education</a>
         <a href="#skills">Skills</a>
@@ -186,7 +215,14 @@
         <h2 id="experience-title">Experience</h2>
         <article>
           <div class="job-head">
-            <span class="logo-slot"><img class="company-logo" src="https://www.google.com/s2/favicons?domain=microsoft.com&amp;sz=128" width="40" height="40" alt=""></span>
+            <span class="logo-slot" aria-hidden="true">
+              <svg class="org-mark" viewBox="0 0 24 24" role="img">
+                <rect x="2" y="2" width="9" height="9" fill="#f25022" />
+                <rect x="13" y="2" width="9" height="9" fill="#7fba00" />
+                <rect x="2" y="13" width="9" height="9" fill="#00a4ef" />
+                <rect x="13" y="13" width="9" height="9" fill="#ffb900" />
+              </svg>
+            </span>
             <div>
               <h3>Microsoft Corporation</h3>
               <p class="job-role">Software Engineer 2</p>
@@ -208,7 +244,19 @@
         </article>
         <article>
           <div class="job-head">
-            <span class="logo-slot"><img class="company-logo company-logo--wide" src="https://upload.wikimedia.org/wikipedia/commons/6/64/Cisco_logo.svg" width="64" height="40" alt=""></span>
+            <span class="logo-slot" aria-hidden="true">
+              <svg class="org-mark org-mark--wide" viewBox="0 0 44 24" role="img">
+                <g fill="#049fd9">
+                  <rect x="3" y="9" width="2.5" height="6" rx="1.2" />
+                  <rect x="8.5" y="5" width="2.5" height="10" rx="1.2" />
+                  <rect x="14" y="2" width="2.5" height="14" rx="1.2" />
+                  <rect x="19.5" y="6" width="2.5" height="9" rx="1.2" />
+                  <rect x="25" y="2" width="2.5" height="14" rx="1.2" />
+                  <rect x="30.5" y="5" width="2.5" height="10" rx="1.2" />
+                  <rect x="36" y="9" width="2.5" height="6" rx="1.2" />
+                </g>
+              </svg>
+            </span>
             <div>
               <h3>Cisco Systems</h3>
               <p class="job-role">Software Engineer</p>
@@ -226,7 +274,7 @@
         </article>
         <article>
           <div class="job-head">
-            <span class="logo-slot"><img class="company-logo" src="https://www.google.com/s2/favicons?domain=midmark.com&amp;sz=128" width="40" height="40" alt=""></span>
+            <span class="logo-slot" aria-hidden="true"><span class="org-badge">MID</span></span>
             <div>
               <h3>Midmark Corporation</h3>
               <p class="job-role">Applied &amp; Research Technologies Intern</p>
@@ -239,7 +287,7 @@
         </article>
         <article>
           <div class="job-head">
-            <span class="logo-slot"><img class="company-logo company-logo--wide" src="https://www.ssn.edu.in/wp-content/uploads/2024/12/snn-logo.svg" width="64" height="40" alt=""></span>
+            <span class="logo-slot" aria-hidden="true"><span class="org-badge">SSN</span></span>
             <div>
               <h3>SSN Wireless Lab</h3>
               <p class="job-role">Software Research Intern</p>
@@ -269,7 +317,7 @@
       <section id="education" class="education" aria-labelledby="education-title">
         <h2 id="education-title">Education</h2>
         <div class="job-head">
-          <span class="logo-slot"><img class="company-logo" src="https://www.google.com/s2/favicons?domain=ucla.edu&amp;sz=128" width="40" height="40" alt=""></span>
+          <span class="logo-slot" aria-hidden="true"><span class="org-badge">UCLA</span></span>
           <div>
             <h3>University of California, Los Angeles</h3>
             <p>M.S. in Electrical &amp; Computer Engineering</p>
@@ -300,46 +348,5 @@
       <footer><a href="#top">Back to top</a></footer>
     </main>
   </div>
-  <script>
-    const appearanceToggle = document.getElementById("appearanceToggle");
-    const systemAppearance = matchMedia("(prefers-color-scheme: dark)");
-    appearanceToggle.checked = document.documentElement.dataset.theme === "dark";
-    appearanceToggle.addEventListener("change", () => {
-      const mode = appearanceToggle.checked ? "dark" : "light";
-      document.documentElement.dataset.theme = mode;
-      document.documentElement.dataset.appearanceSource = "saved";
-      try { localStorage.setItem("profile_appearance", mode); } catch {}
-    });
-    systemAppearance.addEventListener("change", event => {
-      if (document.documentElement.dataset.appearanceSource !== "system") return;
-      document.documentElement.dataset.theme = event.matches ? "dark" : "light";
-      appearanceToggle.checked = event.matches;
-    });
-
-    const sections = [...document.querySelectorAll("main section")];
-    const navigation = [...document.querySelectorAll("nav a")];
-    let scrollFrame;
-    function updateNavigation() {
-      let current = sections.filter(section => section.getBoundingClientRect().top <= 160).at(-1) || sections[0];
-      const atBottom = Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight;
-      if (atBottom) {
-        const destination = sections.find(section => `#${section.id}` === window.location.hash);
-        const bounds = destination?.getBoundingClientRect();
-        current = bounds && bounds.top < window.innerHeight && bounds.bottom > 0 ? destination : sections.at(-1);
-      }
-      navigation.forEach(link => {
-        if (link.hash === `#${current.id}`) link.setAttribute("aria-current", "location");
-        else link.removeAttribute("aria-current");
-      });
-      scrollFrame = null;
-    }
-    document.addEventListener("scroll", () => {
-      if (!scrollFrame) scrollFrame = requestAnimationFrame(updateNavigation);
-    }, { passive: true });
-    window.addEventListener("resize", updateNavigation);
-    window.addEventListener("hashchange", updateNavigation);
-    document.querySelectorAll("details").forEach(detail => detail.addEventListener("toggle", updateNavigation));
-    updateNavigation();
-  </script>
 </body>
 </html>
